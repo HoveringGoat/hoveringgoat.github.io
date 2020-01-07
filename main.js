@@ -24,7 +24,6 @@ function getCookie(cname) {
 //function request() {
 //    var request = new XMLHttpRequest()
 
-//    // todo pull cookie if exists only query if cookie is older than 1 hr
 //    var url = 'https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=2458124&tojd=2458125&delimiter=@@@'
 
 //    request.open('GET', url, true)
@@ -44,14 +43,21 @@ function getCookie(cname) {
 //    request.send()
 //}
 
+
+// todo after we load a cookie or create a new one we need to parse it into actual useable data.
+// maybe store data in a json blob?
+// once we have the data usable we need to come up with some graph functionality and display the data!
+
 function testCookie(){
     var c = getCookie("spaceData");
     if (c != "") {
+        // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
+        // and merge the two.Save the result as a new cookie
         console.log('data retrieved!\n'+c)
     } else {
-        let promise = new promise(function (resolve, reject) {
+        let promise = new Promise(function (resolve, reject) {
             var request = new XMLHttpRequest()
-            // todo pull cookie if exists only query if cookie is older than 1 hr
+            // TODO need to break url into components and a method to convert date to julian date (unless its built in)
             var url = 'https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=2458124&tojd=2458125&delimiter=@@@'
 
             request.open('GET', url, true)
