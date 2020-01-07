@@ -21,19 +21,7 @@ function getCookie(cname) {
   return "";
 }
 
-function checkCookie() {
-  var user=getCookie("username");
-  if (user != "") {
-    alert("Welcome again " + user);
-  } else {
-     user = prompt("Please enter your name:","");
-     if (user != "" && user != null) {
-       setCookie("username", user, 30);
-     }
-  }
-}
-
-function getRequest() {
+function request() {
     var request = new XMLHttpRequest()
 
     // todo pull cookie if exists only query if cookie is older than 1 hr
@@ -45,16 +33,22 @@ function getRequest() {
         var data = this.response
 
         if (request.status >= 200 && request.status < 400) {
-            console.log(data)
             return data
-            // TODO store cookie
         } else {
             console.log('error')
+            return null
         }
     }
 
     request.send()
 }
 
-//checkCookie();
-setCookie("test", "test", 7);
+function testCookie(){
+    var c = getCookie("spaceData");
+    if (c != "") {
+        console.log('data retrieved!\n'+c)
+    } else {
+        var data = request()
+        setCookie("spaceData", data, 30);
+    }
+}
