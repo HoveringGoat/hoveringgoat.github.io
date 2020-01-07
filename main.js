@@ -21,34 +21,61 @@ function getCookie(cname) {
   return "";
 }
 
-function request() {
-    var request = new XMLHttpRequest()
+//function request() {
+//    var request = new XMLHttpRequest()
 
-    // todo pull cookie if exists only query if cookie is older than 1 hr
-    var url = 'https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=2458124&tojd=2458125&delimiter=@@@'
+//    // todo pull cookie if exists only query if cookie is older than 1 hr
+//    var url = 'https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=2458124&tojd=2458125&delimiter=@@@'
 
-    request.open('GET', url, true)
-    request.onload = function() {
-        // Begin accessing JSON data here
-        var data = this.response
+//    request.open('GET', url, true)
+//    request.onload = function() {
+//        // Begin accessing JSON data here
+//        var data = this.response
 
-        if (request.status >= 200 && request.status < 400) {
-            return data
-        } else {
-            console.log('error')
-            return null
-        }
-    }
+//        if (request.status >= 200 && request.status < 400) {
+//            console.log("request success")
+//            return data
+//        } else {
+//            console.log('error')
+//            return null
+//        }
+//    }
 
-    request.send()
-}
+//    request.send()
+//}
 
 function testCookie(){
     var c = getCookie("spaceData");
     if (c != "") {
         console.log('data retrieved!\n'+c)
     } else {
-        var data = request()
-        setCookie("spaceData", data, 30);
+        let promise = new promise(function (resolve, reject) {
+            var request = new XMLHttpRequest()
+            // todo pull cookie if exists only query if cookie is older than 1 hr
+            var url = 'https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=2458124&tojd=2458125&delimiter=@@@'
+
+            request.open('GET', url, true)
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    resolve(this.response)
+                } else {
+                    reject(Error("Network Error"))
+                }
+            }
+            request.onerror - function () {
+                reject(Error("Network Error"))
+            }
+
+            request.send()
+        })
+
+        promise.then(function (data) {
+            setCookie("spaceData", data, 30)
+            console.log("Success!!\n"+data)
+        })
+        promise.catch(function (data) {
+            console.log("Error on sending request")
+        })
+        
     }
 }
