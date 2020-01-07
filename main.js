@@ -2,7 +2,7 @@ function setCookie(cname,cvalue,exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = ";expires=" + d;
-    document.cookie = cname + "=" + cvalue + expires + ";samesite=none;domain=.github.io"+";path=/";
+    document.cookie = cname + "=" + cvalue + expires +";path=/";
 }
 
 function getCookie(cname) {
@@ -57,4 +57,4 @@ function getRequest() {
 }
 
 //checkCookie();
-setCookie("username", "user", 30);
+setCookie("test", "test", 7);
