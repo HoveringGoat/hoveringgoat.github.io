@@ -116,22 +116,38 @@ function calcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 }
 
 function main() {
-    var startingBal = 355000.0
-    var prin = 327646.12
-    var rate = 3.875
-    var payment = 3000.0
-    var minPayment = 2083.75
-    var constPrinPayment = 0.0
-    var maxRatio = .7
-    var maxRatioWithPmi = 1.0
-    var pmi = 122.65
-    var taxes = 510.81 - pmi
-    var valueIncrease = 2.2;
-    var inflation = 2.1;
-    var logging = false
+	console.log("\n")
+    var startingBal = GetValue("loanAmount")
+    var prin = GetValue("principal")
+    var rate = GetValue("interestRate")
+    var payment = GetValue("payment")
+    var minPayment = GetValue("minimumPayment")
+    var constPrinPayment = GetValue("constPrinPayment")
+    var maxRatio = GetValue("maxRatio")
+    var maxRatioWithPmi = GetValue("maxRatioWithPmi")
+    var pmi = GetValue("pmi")
+    var taxes = GetValue("taxes")
+    var valueIncrease = GetValue("valueIncrease")
+    var inflation = GetValue("inflation")
+    var logging = GetCheckboxValue("logging")
 
     calcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging)
 
 }
 
-main()
+function GetValue(className){
+	var elements = document.getElementsByClassName(className)
+	if (elements[0] == null || elements[0] == undefined){
+		return null
+	}
+	return elements[0].value
+}
+
+
+function GetCheckboxValue(className){
+	var elements = document.getElementsByClassName(className)
+	if (elements[0] == null || elements[0] == undefined){
+		return null
+	}
+	return elements.checked
+}
