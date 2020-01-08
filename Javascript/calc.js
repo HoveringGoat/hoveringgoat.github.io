@@ -94,7 +94,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 		prin += taxes
 		prin += pmi
 		
-		if (prin> oldPrin){
+		if (prin >= oldPrin){
 			if (month >= 1200){
 				infinte = true;
 				break;
