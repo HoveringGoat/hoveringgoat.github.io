@@ -152,5 +152,5 @@ function GetCheckboxValue(className){
 	if (elements[0] == null || elements[0] == undefined){
 		return null
 	}
-	return elements.checked
+	return elements[0].checked
 }
