@@ -35,7 +35,8 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
     }
 
     console.log(`Inflation at ${inflation}%, and house value increase at ${valueIncrease}%`)
-    while (prin > payment) {
+    while (prin > 0) {
+        month += 1
         new_mInt = (prin * rate) / (100 * 12.0)
 
         if (constPrinPayment > 0) {
@@ -55,6 +56,10 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         if (payment < minPayment) {
             payment = minPayment
         }
+		
+		if ((prin+mInt+taxes+pmi)< payment){
+			payment = prin+mInt+taxes+pmi
+		}
 
 
         diff = mInt - new_mInt
@@ -74,12 +79,14 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
                 console.log(`interest decreased by: ${diff}`)
             }
         }
-        totPay += payment
-        adjustedTotPay += adjustedPayment
-        prin -= payment
-        prin += mInt
-        prin += taxes
-        prin += pmi
+		
+		totPay += payment
+		adjustedTotPay += adjustedPayment
+		prin -= payment
+		prin += mInt
+		prin += taxes
+		prin += pmi
+		
         if (pmi > 0) {
             pmiPaid += pmi
             adjustedPmiPaid += pmi * dollarValue
@@ -100,7 +107,6 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 
         homeValue *= 1 + (valueIncrease * .01 / 12.0)
         dollarValue *= 1 - (inflation * .01 / 12.0)
-        month += 1
     }
     console.log("")
     console.log(`Took ${(month - month % 12) / 12} years and ${month % 12} months to pay off loan`)
