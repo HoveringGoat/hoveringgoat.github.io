@@ -1,4 +1,7 @@
-function calcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging) {
+function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging) {
+	    if (prin == "NaN"){
+    	return
+    }
     var pmiStart = pmi
     var pmiMonth = 0
     var pmiPaid = 0
@@ -115,7 +118,7 @@ function calcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
     console.log(`Inflation has reduced the value of a dollar by ${dollarValue * 100}% over the life of the loan`)
 }
 
-function main() {
+function Main() {
 	console.log("\n")
     var startingBal = GetValue("loanAmount")
     var prin = GetValue("principal")
@@ -131,7 +134,7 @@ function main() {
     var inflation = GetValue("inflation")
     var logging = GetCheckboxValue("logging")
 
-    calcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging)
+    CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging)
 
 }
 
@@ -140,7 +143,7 @@ function GetValue(className){
 	if (elements[0] == null || elements[0] == undefined){
 		return null
 	}
-	return elements[0].value
+	return parseFloat(elements[0].value)
 }
 
 
