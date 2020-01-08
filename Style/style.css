@@ -1,7 +1,20 @@
 h1.title {
-    display: flex
+    display: flex;
 }
 
 p.subtext {
-    display: flex
+    display: flex;
+}
+div.inputHolder{
+	width: auto
+}
+.inputHolder input{
+}
+.inputHolder label{
+	display: inline-block;
+	width: 200px;
+	margin-right: 10px;
+}
+.hide{
+	display: none;
 }
