@@ -15,6 +15,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
     var adjustedTotPay = 0
     var dollarValue = 1
     var homeValue = startingBal
+	var infinte = false;
 	
 	if (startingBal == 0){
 		startingBal = prin;
@@ -29,17 +30,17 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
     console.log("Starting home value: ", homeValue)
     console.log("Starting loan value: ", prin)
     if (constPrinPayment > 0) {
-        console.log(`cont prin payment of ${constPrinPayment}`)
+        console.log(`cont prin payment of ${(constPrinPayment).toFixed(2)}`)
     }
     else {
-        console.log(`payment of ${payment}`)
+        console.log(`payment of ${(payment).toFixed(2)}`)
     }
     if ((maxRatio > 0) && (payment > minPayment)) {
-        console.log(`max ratio of principal to interest payment: ${maxRatio * 100}`)
+        console.log(`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(2)}`)
     }
 
 	if (inflation >0 || valueIncrease >0){
-		console.log(`Inflation at ${inflation}%, and house value increase at ${valueIncrease}%`)
+		console.log(`Inflation at ${(inflation).toFixed(2)}%, and house value increase at ${(valueIncrease).toFixed(2)}%`)
 	}
     while (prin > 0) {
         month += 1
@@ -78,14 +79,14 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 
         if (logging) {
             console.log("Month: ", month)
-            console.log(`payment of: ${payment}, adj: ${adjustedPayment}`)
-            console.log(`interest: ${mInt}, adj: ${mInt * dollarValue}`)
+            console.log(`payment of: ${(payment).toFixed(2)}, adj: ${(adjustedPayment).toFixed(2)}`)
+            console.log(`interest: ${(mInt).toFixed(2)}, adj: ${(mInt * dollarValue).toFixed(2)}`)
 
             if (diff > 0) {
-                console.log(`interest decreased by: ${diff}`)
+                console.log(`interest decreased by: ${(diff).toFixed(2)}`)
             }
         }
-		
+		var oldPrin = prin;
 		totPay += payment
 		adjustedTotPay += adjustedPayment
 		prin -= payment
@@ -93,6 +94,12 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 		prin += taxes
 		prin += pmi
 		
+		if (prin> oldPrin){
+			if (month >= 1200){
+				infinte = true;
+				break;
+			}
+		}
         if (pmi > 0) {
             pmiPaid += pmi
             adjustedPmiPaid += pmi * dollarValue
@@ -106,35 +113,44 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
             }
         }
         if (logging) {
-            console.log(`current prin: ${prin}`)
+            console.log(`current prin: ${(prin).toFixed(2)}`)
             console.log("\n")
 
         }
 
         homeValue *= 1 + (valueIncrease * .01 / 12.0)
         dollarValue *= 1 - (inflation * .01 / 12.0)
+		
     }
-    console.log("")
-    console.log(`Took ${(month - month % 12) / 12} years and ${month % 12} months to pay off loan`)
-    console.log(`Total interest paid: ${totalInt}, avg: ${totalInt / month}, adj: ${adjustedTotalInt}, adj avg: ${adjustedTotalInt / month}`)
+	
+	if (infinte){
+		console.log("");
+		console.log("Loan never ends. Stats are after 100 years and you die.");
+		console.log(`Remaining balance: ${(prin).toFixed(2)}`);
+	}
+	else{
+		console.log("")
+		console.log(`Took ${(month - month % 12) / 12} years and ${month % 12} months to pay off loan`)
+	}
+    console.log(`Total interest paid: ${(totalInt).toFixed(2)}, avg: ${(totalInt / month).toFixed(2)}, adj: ${(adjustedTotalInt).toFixed(2)}, adj avg: ${(adjustedTotalInt / month).toFixed(2)}`)
     if (pmiStart > 0) {
         console.log(`Paid pmi off in ${(pmiMonth - pmiMonth % 12) / 12} years and ${pmiMonth % 12} months`)
     }
 	if (pmiPaid > 0){
-		console.log(`Total pmi paid: ${pmiPaid}, adj total: ${adjustedPmiPaid / month}`)
+		console.log(`Total pmi paid: ${(pmiPaid).toFixed(2)}, adj total: ${(adjustedPmiPaid / month).toFixed(2)}`)
 	}
-    console.log(`Average payment: ${totPay / month}, adj: ${adjustedTotPay / month}`)
+    console.log(`Average payment: ${(totPay / month).toFixed(2)}, adj: ${(adjustedTotPay / month).toFixed(2)}`)
 	if (taxesPaid > 0){
-		console.log(`Total taxes paid: ${taxesPaid}, avg: ${taxesPaid / month}, adj: ${adjustedTaxesPaid}, adj avg: ${adjustedTaxesPaid / month}`)
+		console.log(`Total taxes paid: ${(taxesPaid).toFixed(2)}, avg: ${(taxesPaid / month).toFixed(2)}, adj: ${(adjustedTaxesPaid).toFixed(2)}, adj avg: ${(adjustedTaxesPaid / month).toFixed(2)}`)
 	}
     console.log(`Total paid less taxes: ${totPay - taxesPaid}, adj: ${adjustedTotPay - adjustedTaxesPaid}`)
-    console.log(`Money pissed away each month on avg: ${(pmiPaid + taxesPaid + totalInt) / month}, avg adj: ${(adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month}`)
+    console.log(`Money pissed away each month on avg: ${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: ${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}`)
 	if (valueIncrease != 0){
 		console.log(`House value monthly change (avg adj): ${(homeValue * dollarValue - startingBal) / month}`)
-		console.log(`House is worth: ${homeValue} in current dollars and ${homeValue * dollarValue} adjusted`)
+		console.log(`House is worth: ${(homeValue).toFixed(2)} in current dollars and ${(homeValue * dollarValue).toFixed(2)} adjusted`)
 	}
 	if (inflation != 0){
-		console.log(`Inflation has reduced the value of a dollar by ${dollarValue * 100}% over the life of the loan`)
+		console.log(`Inflation has reduced the value of a dollar to ${(dollarValue).toFixed(2)} (${(dollarValue* 100).toFixed(1)})% over the life of the loan`)
 	}
 }
 
