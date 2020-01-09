@@ -190,9 +190,6 @@ function SetValue(className, value) {
     if (elements[0] == null || elements[0] == undefined) {
         return null;
     }
-
-    console.log(`Setting value of ${value}, to element ${className}`);
-
     elements[0].setAttribute("value", value);
 }
 
