@@ -155,31 +155,43 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 }
 
 function Main() {
-	console.log("\n");
-    var startingBal = GetValue("loanAmount");
-    var prin = GetValue("principal");
-    var rate = GetValue("interestRate");
-    var payment = GetValue("payment");
-    var minPayment = GetValue("minimumPayment");
-    var constPrinPayment = GetValue("constPrinPayment");
-    var maxRatio = GetValue("maxRatio");
-    var maxRatioWithPmi = GetValue("maxRatioWithPmi");
-    var pmi = GetValue("pmi");
-    var taxes = GetValue("taxes");
-    var valueIncrease = GetValue("valueIncrease");
-    var inflation = GetValue("inflation");
+    console.log("\n");
+    var morgInfo = new Object();
+    morgInfo.startingBal = GetValue("loanAmount");
+    morgInfo.prin = GetValue("principal");
+    morgInfo.rate = GetValue("interestRate");
+    morgInfo.payment = GetValue("payment");
+    morgInfo.minPayment = GetValue("minimumPayment");
+    morgInfo.constPrinPayment = GetValue("constPrinPayment");
+    morgInfo.maxRatio = GetValue("maxRatio");
+    morgInfo.maxRatioWithPmi = GetValue("maxRatioWithPmi");
+    morgInfo.pmi = GetValue("pmi");
+    morgInfo.taxes = GetValue("taxes");
+    morgInfo.valueIncrease = GetValue("valueIncrease");
+    morgInfo.inflation = GetValue("inflation");
     var logging = GetCheckboxValue("logging");
 
-    CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging);
+    SaveMorgInfo(morgInfo);
+
+    CalcMorg(morgInfo.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.valueIncrease, morgInfo.inflation, logging);
 
 }
 
-function GetValue(className){
-	var elements = document.getElementsByClassName(className)
-	if (elements[0] == null || elements[0] == undefined){
-		return null;
-	}
-	return parseFloat(elements[0].value);
+function GetValue(className) {
+    var elements = document.getElementsByClassName(className)
+    if (elements[0] == null || elements[0] == undefined) {
+        return null;
+    }
+    return parseFloat(elements[0].value);
+}
+
+function SetValue(className, value) {
+    var elements = document.getElementsByClassName(className)
+    if (elements[0] == null || elements[0] == undefined) {
+        return null;
+    }
+
+    elements[0].SetValue = value;
 }
 
 
@@ -201,10 +213,58 @@ function AdvOptionsToggle(){
 		
 		if (hide)
 		{
-			i.classList.add("hide")
+            i.classList.add("hide");
 		}
 		else{
-			i.classList.remove("hide")
+            i.classList.remove("hide");
 		}
 	});
+}
+
+function InitialValues(){
+    var c = getCookie("mortgageInfo");
+    if (c == "") {
+        return;
+    }
+    var cookie = JSON.parse(c);
+
+    SetValue("loanAmount", c.startingBal);
+    SetValue("principal", c.prin);
+    SetValue("interestRate", c.rate);
+    SetValue("payment", c.payment);
+    SetValue("minimumPayment", c.minPayment);
+    SetValue("constPrinPayment", c.constPrinPayment);
+    SetValue("maxRatio", c.maxRatio);
+    SetValue("maxRatioWithPmi", c.maxRatioWithPmi);
+    SetValue("pmi", c.pmi);
+    SetValue("valueIncrease", c.valueIncrease);
+    SetValue("inflation", c.inflation);
+}
+
+function SaveMorgInfo(morgInfo) {
+    var s = JSON.stringify(morgInfo);
+    setCookie("mortgageInfo", s, 30)
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = ";expires=" + d;
+    document.cookie = cname + "=" + cvalue + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
