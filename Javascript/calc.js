@@ -36,11 +36,11 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         console.log(`payment of ${(payment).toFixed(2)}`)
     }
     if ((maxRatio > 0) && (payment > minPayment)) {
-        console.log(`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(2)}`)
+        console.log(`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%`)
     }
 
 	if (inflation >0 || valueIncrease >0){
-		console.log(`Inflation at ${(inflation).toFixed(2)}%, and house value increase at ${(valueIncrease).toFixed(2)}%`)
+		console.log(`Inflation at ${(inflation).toFixed(1)}%, and house value increase at ${(valueIncrease).toFixed(1)}%`)
 	}
     while (prin > 0) {
         month += 1
