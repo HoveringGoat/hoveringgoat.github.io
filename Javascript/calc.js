@@ -228,17 +228,17 @@ function InitialValues(){
     }
     var cookie = JSON.parse(c);
 
-    SetValue("loanAmount", c.startingBal);
-    SetValue("principal", c.prin);
-    SetValue("interestRate", c.rate);
-    SetValue("payment", c.payment);
-    SetValue("minimumPayment", c.minPayment);
-    SetValue("constPrinPayment", c.constPrinPayment);
-    SetValue("maxRatio", c.maxRatio);
-    SetValue("maxRatioWithPmi", c.maxRatioWithPmi);
-    SetValue("pmi", c.pmi);
-    SetValue("valueIncrease", c.valueIncrease);
-    SetValue("inflation", c.inflation);
+    SetValue("loanAmount", cookie.startingBal);
+    SetValue("principal", cookie.prin);
+    SetValue("interestRate", cookie.rate);
+    SetValue("payment", cookie.payment);
+    SetValue("minimumPayment", cookie.minPayment);
+    SetValue("constPrinPayment", cookie.constPrinPayment);
+    SetValue("maxRatio", cookie.maxRatio);
+    SetValue("maxRatioWithPmi", cookie.maxRatioWithPmi);
+    SetValue("pmi", cookie.pmi);
+    SetValue("valueIncrease", cookie.valueIncrease);
+    SetValue("inflation", cookie.inflation);
 }
 
 function SaveMorgInfo(morgInfo) {
