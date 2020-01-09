@@ -241,6 +241,7 @@ function InitialValues(){
     SetValue("maxRatio", cookie.maxRatio);
     SetValue("maxRatioWithPmi", cookie.maxRatioWithPmi);
     SetValue("pmi", cookie.pmi);
+    SetValue("taxes", cookie.taxes);
     SetValue("valueIncrease", cookie.valueIncrease);
     SetValue("inflation", cookie.inflation);
 }
