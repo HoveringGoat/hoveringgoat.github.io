@@ -191,7 +191,9 @@ function SetValue(className, value) {
         return null;
     }
 
-    elements[0].SetValue = value;
+    console.log(`Setting value of ${value}, to element ${className}`);
+
+    elements[0].setAttribute("value", value);
 }
 
 
