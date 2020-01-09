@@ -154,7 +154,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 	}
 }
 
-function Main() {
+function ReCalc() {
     console.log("\n");
     var morgInfo = new Object();
     morgInfo.startingBal = GetValue("loanAmount");
