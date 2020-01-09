@@ -122,36 +122,40 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         dollarValue *= 1 - (inflation * .01 / 12.0);
 		
     }
-	
-	if (infinte){
-		console.log("");
-		console.log("Loan never ends. Stats are after 100 years and you die.");
-		console.log(`Remaining balance: $${(prin).toFixed(2)}`);
+
+    var result = "";
+    if (infinte) {
+        result += "Loan never ends. Stats are after 100 years and you die.\n";
+        result += `Remaining balance: $${(prin).toFixed(2)}\n`;
 	}
 	else{
-        console.log("");
-        console.log(`Took ${((month - month % 12) / 12).toFixed(0)} years and ${(month % 12).toFixed(0)} months to pay off loan`);
-	}
-    console.log(`Total interest paid: $${(totalInt).toFixed(2)}, avg: $${(totalInt / month).toFixed(2)}, adj: $${(adjustedTotalInt).toFixed(2)}, adj avg: $${(adjustedTotalInt / month).toFixed(2)}`);
+        result += `Took ${((month - month % 12) / 12).toFixed(0)} years and ${(month % 12).toFixed(0)} months to pay off loan\n`;
+    }
+
+    result += `Total interest paid: $${(totalInt).toFixed(2)}, avg: $${(totalInt / month).toFixed(2)}, adj: $${(adjustedTotalInt).toFixed(2)}, adj avg: $${(adjustedTotalInt / month).toFixed(2)}\n`;
     if (pmiStart > 0) {
-        console.log(`Paid pmi off in ${((pmiMonth - pmiMonth % 12) / 12).toFixed(0)} years and ${(pmiMonth % 12).toFixed(0)} months`);
+        result += `Paid pmi off in ${((pmiMonth - pmiMonth % 12) / 12).toFixed(0)} years and ${(pmiMonth % 12).toFixed(0)} months\n`;
     }
 	if (pmiPaid > 0){
-        console.log(`Total pmi paid: $${(pmiPaid).toFixed(2)}, adj total: $${(adjustedPmiPaid / month).toFixed(2)}`);
-	}
-    console.log(`Average payment: $${(totPay / month).toFixed(2)}, adj: $${(adjustedTotPay / month).toFixed(2)}`);
+        result += `Total pmi paid: $${(pmiPaid).toFixed(2)}, adj total: $${(adjustedPmiPaid / month).toFixed(2)}\n`;
+    }
+
+    result += `Average payment: $${(totPay / month).toFixed(2)}, adj: $${(adjustedTotPay / month).toFixed(2)}\n`;
 	if (taxesPaid > 0){
-        console.log(`Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}`);
+        result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}\n`;
 	}
-    console.log(`Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(0)}`);
-    console.log(`Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}`);
+    result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(0)}\n`;
+    result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
 	if (valueIncrease != 0){
-        console.log(`House value monthly change (avg adj): $${((homeValue * dollarValue - startingBal) / month).toFixed(0)}`);
-        console.log(`House is worth: $${(homeValue).toFixed(2)} in current dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted`);
+        result += `House value monthly change (avg adj): $${((homeValue * dollarValue - startingBal) / month).toFixed(0)}\n`;
+        result += `House is worth: $${(homeValue).toFixed(2)} in current dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted\n`;
 	}
 	if (inflation != 0){
-        console.log(`Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} over the life of the loan`);
-	}
+        result += `Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} over the life of the loan\n`;
+    }
+
+    console.log(result);
+    document.getElementsByClassName("mortgageStats")[0].textContent = result;
 }
 
 function ReCalc() {
@@ -173,6 +177,7 @@ function ReCalc() {
 
     SaveMorgInfo(morgInfo);
 
+    document.getElementsByClassName("mortgageStats")[0].textContent = "";
     CalcMorg(morgInfo.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.valueIncrease, morgInfo.inflation, logging);
 
 }
