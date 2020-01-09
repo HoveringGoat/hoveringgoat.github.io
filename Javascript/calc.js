@@ -105,11 +105,10 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
             adjustedPmiPaid += pmi * dollarValue
             if (homeValue * .8 > prin) {
                 pmi = 0
-            }
-            pmiMonth = month
-            if (logging) {
-                console.log("****************************")
-                console.log("PMI PAID OFF")
+                pmiMonth = month
+                if (logging) {
+                    console.log("PMI PAID OFF")
+                }
             }
         }
         if (logging) {
