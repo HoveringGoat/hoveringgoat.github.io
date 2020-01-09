@@ -150,7 +150,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 		console.log(`House is worth: $${(homeValue).toFixed(2)} in current dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted`)
 	}
 	if (inflation != 0){
-		console.log(`Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} (${(dollarValue* 100).toFixed(1)}%) over the life of the loan`)
+		console.log(`Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} over the life of the loan`)
 	}
 }
 
