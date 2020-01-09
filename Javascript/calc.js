@@ -27,20 +27,21 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         payment = minPayment;
     }
 
-    console.log("Starting home value: ", homeValue);
-    console.log("Starting loan value: ", prin);
+    var result = "";
+    result += `Starting home value: ${homeValue}\n`;
+    result += `Starting loan amount: ${prin}\n`;
     if (constPrinPayment > 0) {
-        console.log(`cont prin payment of ${(constPrinPayment).toFixed(2)}`);
+        result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
     }
     else {
-        console.log(`payment of ${(payment).toFixed(2)}`);
+        result +=`payment of ${(payment).toFixed(2)}\n`;
     }
     if ((maxRatio > 0) && (payment > minPayment)) {
-        console.log(`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%`);
+        result +=`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%\n`;
     }
 
 	if (inflation >0 || valueIncrease >0){
-        console.log(`Inflation at ${(inflation).toFixed(1)}%, and house value increase at ${(valueIncrease).toFixed(1)}%`);
+        result +=`Inflation at ${(inflation).toFixed(1)}%, and house value increase at ${(valueIncrease).toFixed(1)}%\n`;
     }
 
     while (prin > 0) {
@@ -123,7 +124,6 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 		
     }
 
-    var result = "";
     if (infinte) {
         result += "Loan never ends. Stats are after 100 years and you die.\n";
         result += `Remaining balance: $${(prin).toFixed(2)}\n`;
