@@ -53,7 +53,9 @@ function testCookie(){
     if (c != "") {
         // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
         // and merge the two.Save the result as a new cookie
-        console.log('data retrieved!\n'+c)
+        console.log('data retrieved!\n' + c)
+        // already parsed no need
+        // ParseStarData(); 
     } else {
         let promise = new Promise(function (resolve, reject) {
             var request = new XMLHttpRequest()
@@ -76,12 +78,28 @@ function testCookie(){
         })
 
         promise.then(function (data) {
+            // should parse to json (merge) then save cookie.
+
             setCookie("spaceData", data, 30)
-            console.log("Success!!\n"+data)
+            console.log("Success!!\n" + data)
+            ParseStarData();
         })
         promise.catch(function (data) {
             console.log("Error on sending request")
         })
         
     }
+}
+
+function ParseStarData() {
+    console.log("ParseStarData:");
+    var c = getCookie("spaceData");
+    //var delimiter = "@@@";
+    var lines = c.split('\n');
+
+    lines.forEach(function (line) {
+        console.log(line);
+    });
+
+
 }
