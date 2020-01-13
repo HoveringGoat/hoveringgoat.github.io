@@ -5,9 +5,16 @@ function LoadChart(starData) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: 'Alpha Ori Luminosity ',
-                data: starData
-            }]
+                label: 'Avgerage Luminosity',
+                data: starData[1],
+                pointBackgroundColor: 'rgba(10, 50, 100, 0.4)',
+                pointBorderColor: 'rgba(10, 50, 100, 0.5)',
+            }, {
+                    label: 'Luminosity Observations',
+                    data: starData[0],
+                    pointBackgroundColor: 'rgba(100, 100, 100, 0.1)',
+                    pointBorderColor: 'rgba(100, 100, 100, 0.1)',
+                }, ]
         },
         options: {
             scales: {
@@ -37,9 +44,16 @@ function LoadingChart() {
 
 function CleanData(data) {
     var newData = [];
+    var avgData = [];
+    var movingAvg = {};
+    movingAvg.weight = 1.0;
+    movingAvg.value = 0.0;
+    movingAvg.time = 0;
+    movingAvg.update = 1.0;
     var startDate = new Date();
     var dateValue = GetValueString("chartStartDate");
     startDate = ParseDate(dateValue);
+
     data.forEach(function (i) {
         if ((typeof i.band !== "undefined") && ((i.band.indexOf("vis") >= 0) || (i.band == "v"))) {
             if (ConvertToUTC(i.jd) >= startDate) {
@@ -48,6 +62,33 @@ function CleanData(data) {
                 o.y = i.mag;
                 o.r = i.by;
                 newData.push(o);
+
+                if (i.jd < movingAvg.time + movingAvg.update) {
+                    movingAvg.value += parseFloat(i.mag);
+                    movingAvg.weight ++;
+                }
+                else {
+                    if (movingAvg.time != 0) {
+                        var avg = {};
+                        avg.x = ConvertToUTC(movingAvg.time + (.5 * movingAvg.update));
+                        avg.y = movingAvg.value / movingAvg.weight;
+                        avgData.push(avg);
+
+                        if (movingAvg.weight > 1) {
+                            var days = parseFloat(i.jd) - movingAvg.time;
+                            var reduceWeight = .5;
+                            if (days > 5) {
+                                reduceWeight = 0.5 ^ (0.2 / days);
+                            }
+                            movingAvg.value *= reduceWeight
+                            movingAvg.weight *= reduceWeight
+                        }
+                    }
+
+                    movingAvg.time = parseFloat(i.jd);
+                    movingAvg.value += parseFloat(i.mag);
+                    movingAvg.weight++;
+                }
             }
         }
     });
@@ -56,5 +97,5 @@ function CleanData(data) {
         SetValue("chartStartDate", GetFormattedDate(newData[0].x));
     }
 
-    return newData;
+    return [newData, avgData];
 }
