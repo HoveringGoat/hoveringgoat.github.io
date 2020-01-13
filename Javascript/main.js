@@ -52,8 +52,8 @@ function testCookie() {
     var c = getCookie("spaceData");
     var lastData;
     var newDate = GetJulianDate();
-    var lastDate = newDate - 365; 
-    if ((typeof c != "undefined") && (c != null) && (c!= "")) {
+    var lastDate = newDate - 180; 
+    if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
         // and merge the two.Save the result as a new cookie
         console.log('data retrieved!');
@@ -123,7 +123,7 @@ function ParseStarData(c) {
 
 function CreateStarDataCookie(name, data, newDate) {
     var c = [newDate, data];
-
+    console.log("creating cookie");
     setCookie(name, JSON.stringify(c), 30);
 }
 
