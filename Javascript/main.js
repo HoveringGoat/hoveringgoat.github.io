@@ -51,19 +51,22 @@ function getCookie(cname) {
 function testCookie() {
     var c = getCookie("spaceData");
     var lastData;
-    var lastDate;
     var newDate = GetJulianDate();
+    var lastDate = newDate - 365; 
     if ((typeof c != "undefined") && (c != null) && (c!= "")) {
         // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
         // and merge the two.Save the result as a new cookie
         console.log('data retrieved!');
         c = JSON.parse(c);
-        lastDate = c[0];
-        lastData = c[1];
+        if (typeOf c.length == 2)
+        {
+            lastDate = c[0];
+            lastData = c[1];
 
-        if (newDate < lastDate + (1 / 24)) {
-            console.log("Data up to date no need to update.");
-            return;
+            if (newDate < lastDate + (1 / 24)) {
+                console.log("Data up to date no need to update.");
+                return;
+            }
         }
     }
 
