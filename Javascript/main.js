@@ -53,10 +53,11 @@ function testCookie() {
     var lastData;
     var lastDate;
     var newDate = GetJulianDate();
-    if (c != undefined && c != null && c!= "") {
+    if ((typeof c != "undefined") && (c != null) && (c!= "")) {
         // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
         // and merge the two.Save the result as a new cookie
-        console.log('data retrieved!\n' + c);
+        console.log('data retrieved!');
+        c = JSON.parse(c);
         lastDate = c[0];
         lastData = c[1];
 
@@ -137,7 +138,7 @@ function GenerateUrl(date) {
 }
 
 function MergeData(newData, oldData) {
-    if (oldData.length == 0) {
+    if ((typeof oldData === "undefined") || (oldData.length == 0)) {
         return newData;
     }
     var index = 0;
