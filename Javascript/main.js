@@ -48,58 +48,110 @@ function getCookie(cname) {
 // maybe store data in a json blob?
 // once we have the data usable we need to come up with some graph functionality and display the data!
 
-function testCookie(){
+function testCookie() {
     var c = getCookie("spaceData");
-    if (c != "") {
+    var lastData;
+    var lastDate;
+    var newDate = GetJulianDate();
+    if (c != undefined && c != null && c!= "") {
         // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
         // and merge the two.Save the result as a new cookie
-        console.log('data retrieved!\n' + c)
-        // already parsed no need
-        // ParseStarData(); 
-    } else {
-        let promise = new Promise(function (resolve, reject) {
-            var request = new XMLHttpRequest()
-            // TODO need to break url into components and a method to convert date to julian date (unless its built in)
-            var url = 'https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=2458124&tojd=2458125&delimiter=@@@'
+        console.log('data retrieved!\n' + c);
+        lastDate = c[0];
+        lastData = c[1];
 
-            request.open('GET', url, true)
-            request.onload = function () {
-                if (request.status >= 200 && request.status < 400) {
-                    resolve(this.response)
-                } else {
-                    reject(Error("Network Error"))
-                }
-            }
-            request.onerror - function () {
-                reject(Error("Network Error"))
-            }
+        if (newDate < lastDate + (1 / 24)) {
+            console.log("Data up to date no need to update.");
+            return;
+        }
+    }
 
-            request.send()
-        })
+    let promise = new Promise(function (resolve, reject) {
+        var request = new XMLHttpRequest();
+        var url = GenerateUrl(lastDate, newDate);
+
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 400) {
+                resolve(this.response);
+            } else {
+                reject(Error("Network Error"));
+            }
+        }
+        request.onerror - function () {
+            reject(Error("Network Error"));
+        }
+        request.send();
+        });
 
         promise.then(function (data) {
             // should parse to json (merge) then save cookie.
+            console.log("Success!!\n" + data);
+            var parsedData = ParseStarData(data);
+            var mergedData = MergeData(parsedData, lastData);
+            CreateStarDataCookie("starData", mergedData, newDate);
+        });
 
-            setCookie("spaceData", data, 30)
-            console.log("Success!!\n" + data)
-            ParseStarData();
-        })
-        promise.catch(function (data) {
-            console.log("Error on sending request")
-        })
-        
-    }
+        promise.catch(function () {
+            console.log("Error on sending request");
+            return null;
+        });
 }
 
-function ParseStarData() {
-    console.log("ParseStarData:");
-    var c = getCookie("spaceData");
-    //var delimiter = "@@@";
+function ParseStarData(c) {
+    var delimiter = "@@@";
     var lines = c.split('\n');
 
-    lines.forEach(function (line) {
-        console.log(line);
-    });
+    var starData = [];
+    var headers = lines[0].split(delimiter);
 
+        for(var i = 1; i < lines.length; i++) {
+            var words = lines[i].split(delimiter);
+            var observation = {};
+            for (var j = 0; j < words.length; j++) {
+                observation[headers[j]] = words[j];
+            }
+            starData.push(observation);
+    }
 
+    return starData;
+}
+
+function CreateStarDataCookie(name, data, newDate) {
+    var c = [newDate, data];
+
+    setCookie(name, json.stringify(c), 30);
+}
+
+function GetJulianDate() {
+    var d = new Date();
+    d.setTime(d.getTime())
+    var jd = (d.getTime() / (1000 * 60 * 60 * 24)) + 2440587.5;
+    console.log(jd);
+    return jd
+}
+
+function GenerateUrl(date) {
+    var newDate = GetJulianDate();
+    var url = `https://www.aavso.org/vsx/index.php?view=api.delim&ident=Betelgeuse&fromjd=${date}&tojd=${newDate}&delimiter=@@@`;
+    return url;
+}
+
+function MergeData(newData, oldData) {
+    var index = 0;
+    var lastData = oldData[oldData.length - 1];
+
+    for (var i = newData.length - 1; i >= 0; i--) {
+        if (newData[i] == lastData) {
+            index = j+1;
+        }
+    }
+
+    if (index < newData.length) {
+        for (var i = index; i < newData.length; i++) {
+            oldData.push(newData);
+        }
+    }
+
+    return oldData;
 }
