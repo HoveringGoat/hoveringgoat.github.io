@@ -76,6 +76,7 @@ function UpdateData() {
     var lastData;
     var newDate = GetJulianDate();
     var lastDate = 2458119.5; 
+    var updateTimeInterval = 4;
 
     if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         console.log('local data retrieved!');
@@ -85,7 +86,7 @@ function UpdateData() {
             if (c[1][0].jd < lastDate + 7) {
                 lastDate = c[0];
                 lastData = c[1];
-                if (newDate < lastDate + (1 / 24)) {
+                if (newDate < lastDate + (updateTimeInterval / 24)) {
                     console.log("data up to date no need to update.");
                     return new Promise(function (resolve) {
                         resolve(c[1]);
