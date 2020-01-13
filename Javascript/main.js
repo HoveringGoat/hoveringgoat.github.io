@@ -87,7 +87,7 @@ function testCookie() {
 
         promise.then(function (data) {
             // should parse to json (merge) then save cookie.
-            console.log("Success!!");
+            console.log("request successful");
             var parsedData = ParseStarData(data);
             var mergedData = MergeData(parsedData, lastData);
             CreateStarDataCookie("starData", mergedData, newDate);
@@ -167,3 +167,27 @@ function MergeData(newData, oldData) {
 
     return oldData;
 }
+
+function ChartTest{
+    var ctx = document.getElementById('canvas').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 10, 5, 2, 20, 30, 45]
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+}
+
+ChartTest();
