@@ -49,27 +49,45 @@ function getCookie(cname) {
 // once we have the data usable we need to come up with some graph functionality and display the data!
 
 function OnLoad() {
-    var data = UpdateData();
-    if ((typeof data !== "undefined") && (data != null)){
-        LoadChart(data[1]);
-    }
+    LoadingChart();
+    UpdateChart();
+}
+
+function RefreshChart() {
+    var data = GetFromLocalStorage("starData")
+    data = JSON.parse(data);
+    LoadChart(data[1]);
+}
+
+function UpdateChart() {
+    UpdateData().then(function (data) {
+        if ((typeof data !== "undefined") && (data != null)) {
+            LoadChart(data);
+        }
+        else {
+            console.log("loading failed");
+        }
+    });
 }
 
 function UpdateData() {
     var c = GetFromLocalStorage("starData");
     var lastData;
     var newDate = GetJulianDate();
-    var lastDate = newDate - 365; 
+    var lastDate = newDate - 730;
+
     if ((typeof c !== "undefined") && (c != null) && (c != "")) {
-        console.log('data retrieved!');
+        console.log('local data retrieved!');
         c = JSON.parse(c);
         if ((typeof c !== "undefined") || (c.length == 2)) {
             console.log('data parsed!');
             lastDate = c[0];
             lastData = c[1];
             if (newDate < lastDate + (1 / 24)) {
-                console.log("Data up to date no need to update.");
-                return c;
+                console.log("data up to date no need to update.");
+                return new Promise(function (resolve) {
+                    resolve(c[1]);
+                });
             }
         }
     }
@@ -90,21 +108,20 @@ function UpdateData() {
             reject(Error("Network Error"));
         }
         request.send();
-        });
+    });
 
-        promise.then(function (data) {
-            // should parse to json (merge) then save cookie.
-            console.log("request successful");
-            var parsedData = ParseStarData(data.toLowerCase());
-            var mergedData = MergeData(parsedData, lastData);
-            CreateStarDataCookie("starData", mergedData, newDate);
-            return mergedData;
-        });
+    return promise.then(function (data) {
+        console.log("request successful");
+        var parsedData = ParseStarData(data.toLowerCase());
+        var mergedData = MergeData(parsedData, lastData);
+        CreateStarDataCookie("starData", mergedData, newDate);
+        return mergedData;
+    });
 
-        promise.catch(function () {
-            console.log("Error on sending request");
-            return null;
-        });
+    return promise.catch(function () {
+        console.log("Error on sending request");
+        return null;
+    });
 }
 
 function ParseStarData(c) {
@@ -174,4 +191,17 @@ function MergeData(newData, oldData) {
     }
 
     return oldData;
+}
+
+function WatchMe() {
+    var input = document.getElementsByClassName("chartStartDate")[0];
+    if (!input.hasAttribute("pendingEnterEvent")) {
+        input.setAttribute("pendingEnterEvent", true);
+        input.addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                RefreshChart();
+            }
+        });
+    }
 }
