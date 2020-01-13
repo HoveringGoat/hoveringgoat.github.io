@@ -138,6 +138,9 @@ function GenerateUrl(date) {
 }
 
 function MergeData(newData, oldData) {
+    if (oldData.length == 0) {
+        return newData;
+    }
     var index = 0;
     var lastData = oldData[oldData.length - 1];
 
