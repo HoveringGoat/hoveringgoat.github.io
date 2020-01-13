@@ -86,7 +86,7 @@ function testCookie() {
 
         promise.then(function (data) {
             // should parse to json (merge) then save cookie.
-            console.log("Success!!\n" + data);
+            console.log("Success!!");
             var parsedData = ParseStarData(data);
             var mergedData = MergeData(parsedData, lastData);
             CreateStarDataCookie("starData", mergedData, newDate);
@@ -127,7 +127,6 @@ function GetJulianDate() {
     var d = new Date();
     d.setTime(d.getTime())
     var jd = (d.getTime() / (1000 * 60 * 60 * 24)) + 2440587.5;
-    console.log(jd);
     return jd
 }
 
