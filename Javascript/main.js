@@ -74,7 +74,7 @@ function UpdateData() {
     var c = GetFromLocalStorage("starData");
     var lastData;
     var newDate = GetJulianDate();
-    var lastDate = newDate - 360;
+    var lastDate = newDate - 730;
 
     if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         console.log('local data retrieved!');
