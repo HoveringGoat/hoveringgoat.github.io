@@ -53,16 +53,17 @@ function testCookie() {
     var lastData;
     var newDate = GetJulianDate();
     var lastDate = newDate - 365; 
-    if ((typeof c !== "undefined") && (c != null) && (c != "") && (c.length == 2)) {
-        // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
-        // and merge the two.Save the result as a new cookie
+    if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         console.log('data retrieved!');
-        lastDate = c[0];
-        lastData = c[1];
-
-        if (newDate < lastDate + (1 / 24)) {
-            console.log("Data up to date no need to update.");
-            return;
+        c = JSON.parse(c);
+        if ((typeof c !== "undefined") || (c.length == 2)) {
+            console.log('data parsed!');
+            lastDate = c[0];
+            lastData = c[1];
+            if (newDate < lastDate + (1 / 24)) {
+                console.log("Data up to date no need to update.");
+                return;
+            }
         }
     }
 
@@ -119,10 +120,11 @@ function ParseStarData(c) {
 
 function CreateStarDataCookie(name, data, newDate) {
     var c = [newDate, data];
-    console.log("creating cookie");
+    c = JSON.stringify(c);
     SaveToLocalStorage(name, c);
 }
 function SaveToLocalStorage(name, data) {
+    console.log("saving to local storage");
     window.localStorage.setItem(name, data);
 }
 
