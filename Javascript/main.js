@@ -48,7 +48,14 @@ function getCookie(cname) {
 // maybe store data in a json blob?
 // once we have the data usable we need to come up with some graph functionality and display the data!
 
-function testCookie() {
+function OnLoad() {
+    var data = UpdateData();
+    if ((typeof data !== "undefined") && (data != null)){
+        LoadChart(data[1]);
+    }
+}
+
+function UpdateData() {
     var c = GetFromLocalStorage("starData");
     var lastData;
     var newDate = GetJulianDate();
@@ -62,7 +69,7 @@ function testCookie() {
             lastData = c[1];
             if (newDate < lastDate + (1 / 24)) {
                 console.log("Data up to date no need to update.");
-                return;
+                return c;
             }
         }
     }
@@ -88,9 +95,10 @@ function testCookie() {
         promise.then(function (data) {
             // should parse to json (merge) then save cookie.
             console.log("request successful");
-            var parsedData = ParseStarData(data);
+            var parsedData = ParseStarData(data.toLowerCase());
             var mergedData = MergeData(parsedData, lastData);
             CreateStarDataCookie("starData", mergedData, newDate);
+            return mergedData;
         });
 
         promise.catch(function () {
@@ -167,27 +175,3 @@ function MergeData(newData, oldData) {
 
     return oldData;
 }
-
-function ChartTest(){
-    var ctx = document.getElementById('canvas').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45]
-            }]
-        },
-
-        // Configuration options go here
-        options: {}
-    });
-}
-
-ChartTest();
