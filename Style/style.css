@@ -23,3 +23,8 @@ div.inputHolder {
     white-space: pre;
     margin-top: 10px
 }
+
+#chartHolder {
+    max-width: 800px;
+    max-height: 600px;
+}
