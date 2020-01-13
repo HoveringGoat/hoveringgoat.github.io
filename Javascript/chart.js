@@ -1,19 +1,21 @@
+var scatterChart;
 function LoadChart(starData) {
     var ctx = document.getElementById('chart').getContext('2d');
-    starData = CleanData(starData);
-    var scatterChart = new Chart(ctx, {
+    scatterChart = new Chart(ctx, {
         type: 'scatter',
         data: {
             datasets: [{
                 label: 'Avgerage Luminosity',
-                data: starData[1],
+                data: null,
                 pointBackgroundColor: 'rgba(10, 50, 100, 0.4)',
                 pointBorderColor: 'rgba(10, 50, 100, 0.5)',
+                backgroundColor: 'rgba(10, 50, 100, 0.5)',
             }, {
                     label: 'Luminosity Observations',
-                    data: starData[0],
+                    data: null,
                     pointBackgroundColor: 'rgba(100, 100, 100, 0.1)',
                     pointBorderColor: 'rgba(100, 100, 100, 0.1)',
+                    backgroundColor: 'rgba(100, 100, 100, 0.1)',
                 }, ]
         },
         options: {
@@ -34,6 +36,21 @@ function LoadChart(starData) {
             }
         }
     });
+
+    return scatterChart;
+}
+
+
+function UpdateChartData(starData) {
+    if (typeof scatterChart === "undefined") {
+        console.log("error retriving chart");
+        return;
+    }
+
+    starData = CleanData(starData);
+    scatterChart.data.datasets[0].data = starData[0];
+    scatterChart.data.datasets[1].data = starData[1];
+    scatterChart.update();
 }
 
 function LoadingChart() {
@@ -97,5 +114,5 @@ function CleanData(data) {
         SetValue("chartStartDate", GetFormattedDate(newData[0].x));
     }
 
-    return [newData, avgData];
+    return [avgData, newData];
 }

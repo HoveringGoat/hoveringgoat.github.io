@@ -56,13 +56,14 @@ function OnLoad() {
 function RefreshChart() {
     var data = GetFromLocalStorage("starData")
     data = JSON.parse(data);
-    LoadChart(data[1]);
+    UpdateChartData(data[1]);
 }
 
 function UpdateChart() {
     UpdateData().then(function (data) {
         if ((typeof data !== "undefined") && (data != null)) {
-            LoadChart(data);
+            LoadChart();
+            UpdateChartData(data);
         }
         else {
             console.log("loading failed");
