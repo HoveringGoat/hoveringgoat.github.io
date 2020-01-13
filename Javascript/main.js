@@ -121,7 +121,7 @@ function ParseStarData(c) {
 function CreateStarDataCookie(name, data, newDate) {
     var c = [newDate, data];
 
-    setCookie(name, json.stringify(c), 30);
+    setCookie(name, JSON.stringify(c), 30);
 }
 
 function GetJulianDate() {
