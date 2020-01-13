@@ -40,3 +40,14 @@ div.inputHolder {
 #chartHolder div *{
     margin: 5px;
 }
+
+.about {
+    max-width: 800px;
+    margin: 6px 10px 10px 5px;
+    border: solid;
+    border-width: 2px;
+    border-color: lightgray;
+}
+.about p{
+    margin: 7px;
+}

@@ -58,36 +58,3 @@ function CleanData(data) {
 
     return newData;
 }
-
-function ConvertToUTC(jd) {
-    var time = jd - 2440587.5;
-    time *= 1000 * 60 * 60 * 24
-    var d = new Date();
-    d.setTime(time);
-    return d;
-}
-
-function GetFormattedDate(date) {
-    let year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString().padStart(2, '0');
-    let day = date.getDate().toString().padStart(2, '0');
-
-    var dateString = month + '/' + day + '/' + year;
-    return dateString
-}
-
-function ParseDate(date) {
-    var parsedDate = new Date();
-
-    if ((date !== "undefined") && (date.length >= 0)) {
-        var dates = date.split(/\.|-|\//);
-
-        if ((dates !== "undefined") && (dates.length == 3)) {
-            parsedDate.setUTCFullYear(dates[2]);
-            parsedDate.setMonth(dates[0] - 1);
-            parsedDate.setDate(dates[1]);
-            return parsedDate;
-        }
-    }
-    return parsedDate.setTime(0);
-}
