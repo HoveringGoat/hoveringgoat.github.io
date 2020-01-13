@@ -49,10 +49,10 @@ function getCookie(cname) {
 // once we have the data usable we need to come up with some graph functionality and display the data!
 
 function testCookie() {
-    var c = getCookie("spaceData");
+    var c = getCookie("starData");
     var lastData;
     var newDate = GetJulianDate();
-    var lastDate = newDate - 180; 
+    var lastDate = newDate - 30; 
     if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         // TODO compare cookie to date and if its older than 1 hr we should get new request (from the last time slice)
         // and merge the two.Save the result as a new cookie
