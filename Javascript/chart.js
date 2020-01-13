@@ -109,6 +109,12 @@ function CleanData(data) {
         }
     });
 
+    // create last avg data point
+    var avg = {};
+    avg.x = ConvertToUTC(movingAvg.time + (.5 * movingAvg.update));
+    avg.y = movingAvg.value / movingAvg.weight;
+    avgData.push(avg);
+
     if ((startDate == 0 || (ConvertToUTC(data[0].jd) > startDate))) {
         SetValue("chartStartDate", GetFormattedDate(newData[0].x));
     }
