@@ -52,7 +52,7 @@ function CleanData(data) {
         }
     });
 
-    if (startDate == 0) {
+    if ((startDate == 0 || (ConvertToUTC(data[0].jd) > startDate))) {
         SetValue("chartStartDate", GetFormattedDate(newData[0].x));
     }
 
