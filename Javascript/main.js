@@ -81,7 +81,7 @@ function UpdateData() {
         c = JSON.parse(c);
         if ((typeof c !== "undefined") || (c.length == 2)) {
             console.log('data parsed!');
-            if (c[1].length > 2000) {
+            if (c[1][0].jd < lastDate + 7) {
                 lastDate = c[0];
                 lastData = c[1];
                 if (newDate < lastDate + (1 / 24)) {
@@ -165,6 +165,11 @@ function GetJulianDate() {
     d.setTime(d.getTime())
     var jd = (d.getTime() / (1000 * 60 * 60 * 24)) + 2440587.5;
     return jd
+}
+
+function ConvertToJulianDate(d) {
+        var jd = (d.getTime() / (1000 * 60 * 60 * 24)) + 2440587.5;
+        return jd
 }
 
 function GenerateUrl(date) {
