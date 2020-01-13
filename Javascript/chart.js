@@ -77,7 +77,6 @@ function CleanData(data) {
                 var o = {};
                 o.x = ConvertToUTC(i.jd);
                 o.y = i.mag;
-                o.r = i.by;
                 newData.push(o);
 
                 if (i.jd < movingAvg.time + movingAvg.update) {
