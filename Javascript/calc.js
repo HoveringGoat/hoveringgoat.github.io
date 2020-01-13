@@ -190,12 +190,21 @@ function GetValue(className) {
     return parseFloat(elements[0].value);
 }
 
+function GetValueString(className) {
+    var elements = document.getElementsByClassName(className);
+    if (elements[0] == null || elements[0] == undefined) {
+        return null;
+    }
+    return elements[0].value;
+}
+
 function SetValue(className, value) {
     var elements = document.getElementsByClassName(className)
     if (elements[0] == null || elements[0] == undefined) {
         return null;
     }
     elements[0].setAttribute("value", value);
+    elements[0].value = value;
 }
 
 
