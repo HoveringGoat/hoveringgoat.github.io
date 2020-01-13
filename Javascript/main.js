@@ -58,7 +58,7 @@ function testCookie() {
         // and merge the two.Save the result as a new cookie
         console.log('data retrieved!');
         c = JSON.parse(c);
-        if (typeOf c.length == 2)
+        if ((typeof c !== "undefined") && (c.length == 2))
         {
             lastDate = c[0];
             lastData = c[1];
