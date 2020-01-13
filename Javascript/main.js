@@ -168,7 +168,7 @@ function MergeData(newData, oldData) {
     return oldData;
 }
 
-function ChartTest{
+function ChartTest(){
     var ctx = document.getElementById('canvas').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
