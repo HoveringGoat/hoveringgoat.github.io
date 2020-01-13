@@ -81,13 +81,15 @@ function UpdateData() {
         c = JSON.parse(c);
         if ((typeof c !== "undefined") || (c.length == 2)) {
             console.log('data parsed!');
-            lastDate = c[0];
-            lastData = c[1];
-            if (newDate < lastDate + (1 / 24)) {
-                console.log("data up to date no need to update.");
-                return new Promise(function (resolve) {
-                    resolve(c[1]);
-                });
+            if (c[1].length > 2000) {
+                lastDate = c[0];
+                lastData = c[1];
+                if (newDate < lastDate + (1 / 24)) {
+                    console.log("data up to date no need to update.");
+                    return new Promise(function (resolve) {
+                        resolve(c[1]);
+                    });
+                }
             }
         }
     }
