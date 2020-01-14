@@ -75,7 +75,7 @@ function UpdateData() {
     var lastData;
     var newDate = GetJulianDate();
     var lastDate = 2458119.5; 
-    var updateTimeInterval = 4*0;
+    var updateTimeInterval = 4;
 
     if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         console.log('local data retrieved!');
