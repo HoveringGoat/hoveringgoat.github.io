@@ -13,8 +13,8 @@ function LoadChart(starData) {
             }, {
                     label: 'Luminosity Observations',
                     data: null,
-                    pointBackgroundColor: 'rgba(100, 100, 100, 0.15)',
-                    pointBorderColor: 'rgba(100, 100, 100, 0.2)',
+                    pointBackgroundColor: 'rgba(100, 100, 100, 0.1)',
+                    pointBorderColor: 'rgba(100, 100, 100, 0.1)',
                     backgroundColor: 'rgba(100, 100, 100, 0.2)',
                 }, ]
         },
