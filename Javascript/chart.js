@@ -75,15 +75,12 @@ function CleanData(data) {
                 var deviation = Math.abs(parseFloat(i.mag) - (movingAvg.value / movingAvg.weight));
                 var skip = false;
                 if (deviation > 1.5) {
-                        console.log("throwing out value: " + i.mag);
                         skip = true;
                 }
                 else if ((movingAvg.weight > 3) && (deviation > .5)) {
-                    console.log("throwing out value: " + i.mag);
                     skip = true;
                 }
                 else if ((movingAvg.weight > 5) && (deviation > 0.3)) {
-                    console.log("throwing out value: " + i.mag);
                     skip = true;
                 }
 
@@ -118,9 +115,6 @@ function CleanData(data) {
                     }
                 }
             }
-        }
-        else {
-            console.log(JSON.stringify(i));
         }
     });
 
