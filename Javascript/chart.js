@@ -51,12 +51,6 @@ function UpdateChartData(starData) {
     scatterChart.update();
 }
 
-function LoadingChart() {
-    var ctx = document.getElementById('chart').getContext('2d');
-    ctx.font = '48px serif';
-    ctx.fillText('Loading Data', 10, 50);
-}
-
 function CleanData(data) {
     var newData = [];
     var avgData = [];

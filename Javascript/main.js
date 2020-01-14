@@ -49,7 +49,7 @@ function getCookie(cname) {
 // once we have the data usable we need to come up with some graph functionality and display the data!
 
 function OnLoad() {
-    LoadingChart();
+    LoadChart();
     UpdateChart();
 }
 
@@ -62,7 +62,6 @@ function RefreshChart() {
 function UpdateChart() {
     UpdateData().then(function (data) {
         if ((typeof data !== "undefined") && (data != null)) {
-            LoadChart();
             UpdateChartData(data);
         }
         else {
@@ -76,7 +75,7 @@ function UpdateData() {
     var lastData;
     var newDate = GetJulianDate();
     var lastDate = 2458119.5; 
-    var updateTimeInterval = 4;
+    var updateTimeInterval = 4*0;
 
     if ((typeof c !== "undefined") && (c != null) && (c != "")) {
         console.log('local data retrieved!');
@@ -93,6 +92,7 @@ function UpdateData() {
                     });
                 }
             }
+            UpdateChartData(c[1]);
         }
     }
 
