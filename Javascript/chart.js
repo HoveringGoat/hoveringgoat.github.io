@@ -74,36 +74,38 @@ function CleanData(data) {
     data.forEach(function (i) {
         if ((typeof i.band !== "undefined") && ((i.band.indexOf("vis") >= 0) || (i.band == "v"))) {
             if (ConvertToUTC(i.jd) >= startDate) {
-                var o = {};
-                o.x = ConvertToUTC(i.jd);
-                o.y = i.mag;
-                newData.push(o);
-
-                if (i.jd < movingAvg.time + movingAvg.update) {
-                    movingAvg.value += parseFloat(i.mag);
-                    movingAvg.weight ++;
+                if (Math.abs(parseFloat(i.mag) - (movingAvg.value / movingAvg.weight)) > 2) {
+                    console.log("throwing out value: " + i.mag);
                 }
                 else {
-                    if (movingAvg.time != 0) {
-                        var avg = {};
-                        avg.x = ConvertToUTC(movingAvg.time + (.5 * movingAvg.update));
-                        avg.y = movingAvg.value / movingAvg.weight;
-                        avgData.push(avg);
+                    var o = {};
+                    o.x = ConvertToUTC(i.jd);
+                    o.y = i.mag;
+                    newData.push(o);
 
-                        if (movingAvg.weight > 1) {
-                            var days = parseFloat(i.jd) - movingAvg.time;
-                            var reduceWeight = .5;
-                            if (days > 5) {
-                                reduceWeight = 0.5 ^ (0.2 / days);
-                            }
-                            movingAvg.value *= reduceWeight
-                            movingAvg.weight *= reduceWeight
-                        }
+                    if (i.jd < movingAvg.time + movingAvg.update) {
+                        movingAvg.value += parseFloat(i.mag);
+                        movingAvg.weight++;
                     }
+                    else {
+                        if (movingAvg.time != 0) {
+                            var avg = {};
+                            avg.x = ConvertToUTC(movingAvg.time + (.5 * movingAvg.update));
+                            avg.y = movingAvg.value / movingAvg.weight;
+                            avgData.push(avg);
 
-                    movingAvg.time = parseFloat(i.jd);
-                    movingAvg.value += parseFloat(i.mag);
-                    movingAvg.weight++;
+                            if (movingAvg.weight > 1) {
+                                var days = parseFloat(i.jd) - movingAvg.time;
+                                var reduceWeight = .5;
+                                movingAvg.value *= reduceWeight
+                                movingAvg.weight *= reduceWeight
+                            }
+                        }
+
+                        movingAvg.time = parseFloat(i.jd);
+                        movingAvg.value += parseFloat(i.mag);
+                        movingAvg.weight++;
+                    }
                 }
             }
         }
