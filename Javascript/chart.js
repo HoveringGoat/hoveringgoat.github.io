@@ -13,9 +13,9 @@ function LoadChart(starData) {
             }, {
                     label: 'Luminosity Observations',
                     data: null,
-                    pointBackgroundColor: 'rgba(100, 100, 100, 0.1)',
-                    pointBorderColor: 'rgba(100, 100, 100, 0.1)',
-                    backgroundColor: 'rgba(100, 100, 100, 0.1)',
+                    pointBackgroundColor: 'rgba(100, 100, 100, 0.15)',
+                    pointBorderColor: 'rgba(100, 100, 100, 0.2)',
+                    backgroundColor: 'rgba(100, 100, 100, 0.2)',
                 }, ]
         },
         options: {
@@ -29,8 +29,6 @@ function LoadChart(starData) {
                 yAxes: [{
                     ticks: {
                         reverse: true,
-                        min: -.5,
-                        max: 2.75,
                     }
                 }]
             }
@@ -72,12 +70,24 @@ function CleanData(data) {
     startDate = ParseDate(dateValue);
 
     data.forEach(function (i) {
-        if ((typeof i.band !== "undefined") && ((i.band.indexOf("vis") >= 0) || (i.band == "v"))) {
+        if ((typeof i.obstype !== "undefined") && ((i.obstype == "pep") || (i.band.indexOf("v") >= 0))) {
             if (ConvertToUTC(i.jd) >= startDate) {
-                if (Math.abs(parseFloat(i.mag) - (movingAvg.value / movingAvg.weight)) > 2) {
-                    console.log("throwing out value: " + i.mag);
+                var deviation = Math.abs(parseFloat(i.mag) - (movingAvg.value / movingAvg.weight));
+                var skip = false;
+                if (deviation > 1.5) {
+                        console.log("throwing out value: " + i.mag);
+                        skip = true;
                 }
-                else {
+                else if ((movingAvg.weight > 3) && (deviation > .5)) {
+                    console.log("throwing out value: " + i.mag);
+                    skip = true;
+                }
+                else if ((movingAvg.weight > 5) && (deviation > 0.3)) {
+                    console.log("throwing out value: " + i.mag);
+                    skip = true;
+                }
+
+                if (!skip){
                     var o = {};
                     o.x = ConvertToUTC(i.jd);
                     o.y = i.mag;
@@ -108,6 +118,9 @@ function CleanData(data) {
                     }
                 }
             }
+        }
+        else {
+            console.log(JSON.stringify(i));
         }
     });
 
