@@ -5,13 +5,13 @@ function LoadChart(starData) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: 'Avgerage Luminosity',
+                label: 'Avgerage',
                 data: null,
                 pointBackgroundColor: 'rgba(10, 50, 100, 0.4)',
                 pointBorderColor: 'rgba(10, 50, 100, 0.5)',
                 backgroundColor: 'rgba(10, 50, 100, 0.5)',
             }, {
-                    label: 'Luminosity Observations',
+                    label: 'Observations',
                     data: null,
                     pointBackgroundColor: 'rgba(100, 100, 100, 0.1)',
                     pointBorderColor: 'rgba(100, 100, 100, 0.1)',
@@ -27,6 +27,10 @@ function LoadChart(starData) {
                     }
                 }],
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Apparent Magnitude',
+                    },
                     ticks: {
                         reverse: true,
                     }
