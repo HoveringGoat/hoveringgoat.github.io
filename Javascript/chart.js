@@ -5,7 +5,7 @@ function LoadChart(starData) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: 'Avgerage',
+                label: 'Average',
                 data: null,
                 pointBackgroundColor: 'rgba(10, 50, 100, 0.4)',
                 pointBorderColor: 'rgba(10, 50, 100, 0.5)',
