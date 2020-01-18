@@ -94,6 +94,7 @@ function UpdateData() {
                         });
                     }
                 }
+
                 UpdateChartData(c[1]);
             }
         }
