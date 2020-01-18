@@ -49,8 +49,6 @@ function UpdateChartData(starData) {
         return;
     }
 
-    console.log("uploading chart data");
-
     starData = CleanData(starData);
     scatterChart.data.datasets[0].data = starData[0];
     scatterChart.data.datasets[1].data = starData[1];
