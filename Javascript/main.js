@@ -85,14 +85,17 @@ function UpdateData() {
             if (c[1][0].jd < lastDate + 7) {
                 lastDate = c[0];
                 lastData = c[1];
-                if (newDate < lastDate + (updateTimeInterval / 24)) {
-                    console.log("data up to date no need to update.");
-                    return new Promise(function (resolve) {
-                        resolve(c[1]);
-                    });
+                // bug broke data storage clear if before date.
+                if (lastDate > 2458868) {
+                    if (newDate < lastDate + (updateTimeInterval / 24)) {
+                        console.log("data up to date no need to update.");
+                        return new Promise(function (resolve) {
+                            resolve(c[1]);
+                        });
+                    }
+                    UpdateChartData(c[1]);
                 }
             }
-            UpdateChartData(c[1]);
         }
     }
 
@@ -134,14 +137,15 @@ function ParseStarData(c) {
 
     var starData = [];
     var headers = lines[0].split(delimiter);
-
-        for(var i = 1; i < lines.length; i++) {
-            var words = lines[i].split(delimiter);
+    for(var i = 1; i < lines.length; i++) {
+        var words = lines[i].split(delimiter);
+        if (words.length > 1) {
             var observation = {};
             for (var j = 0; j < words.length; j++) {
                 observation[headers[j]] = words[j];
             }
             starData.push(observation);
+        }
     }
 
     return starData;
