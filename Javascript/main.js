@@ -86,13 +86,16 @@ function UpdateData() {
                 lastDate = c[0];
                 lastData = c[1];
                 // bug broke data storage clear if before date.
-                if (lastDate > 2458868) {
+                if (lastDate > 2458867.5) {
                     if (newDate < lastDate + (updateTimeInterval / 24)) {
                         console.log("data up to date no need to update.");
                         return new Promise(function (resolve) {
                             resolve(c[1]);
                         });
                     }
+                }
+                else {
+                    window.localStorage.clear();
                 }
 
                 UpdateChartData(c[1]);
