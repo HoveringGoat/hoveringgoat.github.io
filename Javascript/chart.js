@@ -52,6 +52,20 @@ function UpdateChartData(starData) {
     starData = CleanData(starData);
     scatterChart.data.datasets[0].data = starData[0];
     scatterChart.data.datasets[1].data = starData[1];
+    var dayLast = starData[0][starData[0].length - 1].x;
+    var dayInit = starData[0][0].x;
+    var days = dayLast - dayInit;
+    days *= 1 / (1000 * 60 * 60 * 24);
+
+    if (days > 100) {
+        scatterChart.options.scales.xAxes[0].time.unit = 'month';
+    }
+    else if (days > 30) {
+        scatterChart.options.scales.xAxes[0].time.unit = 'week';
+    }
+    else {
+        scatterChart.options.scales.xAxes[0].time.unit = 'day';
+    }
     scatterChart.update();
 }
 
