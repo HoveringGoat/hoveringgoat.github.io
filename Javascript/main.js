@@ -95,6 +95,7 @@ function UpdateData() {
                     }
                 }
                 else {
+                    console.log("clearing data");
                     window.localStorage.clear();
                 }
 
