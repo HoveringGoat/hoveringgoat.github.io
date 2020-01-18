@@ -93,8 +93,8 @@ function UpdateData() {
                             resolve(c[1]);
                         });
                     }
-                    UpdateChartData(c[1]);
                 }
+                UpdateChartData(c[1]);
             }
         }
     }
