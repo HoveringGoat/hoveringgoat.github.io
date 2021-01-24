@@ -16,7 +16,9 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
     var dollarValue = 1;
     var homeValue = startingBal;
 	var infinte = false;
-	
+    int nowDate = Date.now()/1000/60/60/24/365+1970
+	int thenDate = nowDate;
+
 	if (startingBal == 0){
 		startingBal = prin;
 	}
@@ -95,6 +97,11 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         prin += mInt;
         prin += taxes;
         prin += pmi;
+
+        if (month % 12 == 0)
+        {
+            thenDate++;
+        }
 		
 		if (prin >= oldPrin){
 			if (month >= 1200){
@@ -124,6 +131,8 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 		
     }
 
+
+
     if (infinte) {
         result += "Loan never ends. Stats are after 100 years and you die.\n";
         result += `Remaining balance: $${(prin).toFixed(2)}\n`;
@@ -145,10 +154,10 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}\n`;
 	}
     result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(0)}\n`;
-    result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
+    result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt + hoaPaid) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
 	if (appreciation != 0){
-        result += `House value monthly change (avg adj): $${((homeValue * dollarValue - startingBal) / month).toFixed(0)}\n`;
-        result += `House is worth: $${(homeValue).toFixed(2)} in current dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted\n`;
+        result += `House appreciation monthly change (avg adj): $${((homeValue * dollarValue - startingBal) / month).toFixed(0)}\n`;
+        result += `House is worth: $${(homeValue).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted (${nowDate} dollars\n`;
 	}
 	if (inflation != 0){
         result += `Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} over the life of the loan\n`;
