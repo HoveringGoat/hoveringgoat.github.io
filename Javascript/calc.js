@@ -13,7 +13,7 @@ function CalcMorg(morgInfo)
     var appreciation = morgInfo.appreciation;
     var inflation = morgInfo.inflation;
     var stopAfter = morgInfo.stopAfter;
-    var logging = morgInfo.inflation;
+    var logging = morgInfo.logging;
 
     var pmiStart = pmi;
     var pmiMonth = 0;
@@ -214,8 +214,7 @@ function ReCalc() {
     morgInfo.appreciation = GetValue("appreciation");
     morgInfo.inflation = GetValue("inflation");
     morgInfo.stopAfter = GetValue("stopAfter")
-
-    var logging = GetCheckboxValue("logging");
+    morgInfo.logging = GetCheckboxValue("logging");
 
     SaveMorgInfo(morgInfo);
 
