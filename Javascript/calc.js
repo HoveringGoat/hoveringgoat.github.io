@@ -294,6 +294,7 @@ function InitialValues(){
     SetValue("pmi", cookie.pmi);
     SetValue("taxes", cookie.taxes);
     SetValue("appreciation", cookie.appreciation);
+    SetValue("stopAfter", cookie.stopAfter);
     SetValue("inflation", cookie.inflation);
 }
 
