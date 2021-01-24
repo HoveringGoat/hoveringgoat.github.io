@@ -1,5 +1,20 @@
-function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, appreciation, inflation, logging) {
-	
+function CalcMorg(morgInfo)
+{
+    var startingBal = morgInfo.startingBal;
+    var prin = morgInfo.prin;
+    var rate = morgInfo.rate;
+    var payment = morgInfo.payment;
+    var minPayment = morgInfo.minPayment;
+    var constPrinPayment = morgInfo.constPrinPayment;
+    var maxRatio = morgInfo.maxRatio;
+    var maxRatioWithPmi = morgInfo.maxRatioWithPmi;
+    var pmi = morgInfo.pmi;
+    var taxes = morgInfo.taxes;
+    var appreciation = morgInfo.appreciation;
+    var inflation = morgInfo.inflation;
+    var stopAfter = morgInfo.stopAfter;
+    var logging = morgInfo.inflation;
+
     var pmiStart = pmi;
     var pmiMonth = 0;
     var pmiPaid = 0;
@@ -129,16 +144,26 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         homeValue *= 1 + (appreciation * .01 / 12.0);
         dollarValue *= 1 - (inflation * .01 / 12.0);
 		
+        if (stopAfter == month){
+            break;
+        }
     }
 
+    var paidOff = true;
+    if (prin > 0){
+        paidOff = false;
+    }
 
 
     if (infinte) {
         result += "Loan never ends. Stats are after 100 years and you die.\n";
         result += `Remaining balance: $${(prin).toFixed(2)}\n`;
 	}
-	else{
+	else if (paidOff){
         result += `Took ${((month - month % 12) / 12).toFixed(0)} years and ${(month % 12).toFixed(0)} months to pay off loan\n`;
+    }
+    else{
+        result += `Spent ${((month - month % 12) / 12).toFixed(0)} years and ${(month % 12).toFixed(0)} months paying off loan. Remaining balance: $${prin}\n`;
     }
 
     result += `Total interest paid: $${(totalInt).toFixed(2)}, avg: $${(totalInt / month).toFixed(2)}, adj: $${(adjustedTotalInt).toFixed(2)}, adj avg: $${(adjustedTotalInt / month).toFixed(2)}\n`;
@@ -153,12 +178,18 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 	if (taxesPaid > 0){
         result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}\n`;
 	}
+
     result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(0)}\n`;
     result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
 	if (appreciation != 0){
         result += `House appreciation monthly change (avg adj): $${((homeValue * dollarValue - startingBal) / month).toFixed(0)}\n`;
         result += `House is worth: $${(homeValue).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted (${nowDate} dollars\n`;
-	}
+	   
+       if (!paidOff){
+        result += `Current value to you: $${(homeValue-prin).toFixed(2)} in ${thenDate} dollars and $${(homeValue-prin * dollarValue).toFixed(2)} adjusted (${nowDate} dollars\n`;
+       }
+    }
+
 	if (inflation != 0){
         result += `Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} over the life of the loan\n`;
     }
@@ -182,12 +213,14 @@ function ReCalc() {
     morgInfo.taxes = GetValue("taxes");
     morgInfo.appreciation = GetValue("appreciation");
     morgInfo.inflation = GetValue("inflation");
+    morgInfo.stopAfter = GetValue("stopAfter")
+
     var logging = GetCheckboxValue("logging");
 
     SaveMorgInfo(morgInfo);
 
     document.getElementsByClassName("mortgageStats")[0].textContent = "";
-    CalcMorg(morgInfo.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
+    CalcMorg(morgInfo); //.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
 
 }
 
