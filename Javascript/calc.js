@@ -16,7 +16,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
     var dollarValue = 1;
     var homeValue = startingBal;
 	var infinte = false;
-    int nowDate = Date.now()/1000/60/60/24/365+1970
+    int nowDate = Date.now()/1000/60/60/24/365+1970;
 	int thenDate = nowDate;
 
 	if (startingBal == 0){
