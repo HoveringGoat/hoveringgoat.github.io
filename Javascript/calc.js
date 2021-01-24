@@ -183,10 +183,10 @@ function CalcMorg(morgInfo)
     result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
 	if (appreciation != 0){
         result += `House appreciation monthly change (avg adj): $${((homeValue * dollarValue - prin) / month).toFixed(2)}\n`;
-        result += `House is worth: $${(homeValue).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted (${nowDate} dollars\n`;
+        result += `House is worth: $${(homeValue).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted (${nowDate} dollars)\n`;
 	   
        if (!paidOff){
-        result += `Current value to you: $${(homeValue-prin).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue-prin).toFixed(2)} adjusted (${nowDate} dollars\n`;
+        result += `Current value to you: $${(homeValue-prin).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue-prin).toFixed(2)} adjusted (${nowDate} dollars)\n`;
        }
     }
 
