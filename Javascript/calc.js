@@ -1,4 +1,4 @@
-function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, valueIncrease, inflation, logging) {
+function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment, maxRatio, maxRatioWithPmi, pmi, taxes, appreciation, inflation, logging) {
 	
     var pmiStart = pmi;
     var pmiMonth = 0;
@@ -40,8 +40,8 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
         result +=`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%\n`;
     }
 
-	if (inflation >0 || valueIncrease >0){
-        result +=`Inflation at ${(inflation).toFixed(1)}%, and house value increase at ${(valueIncrease).toFixed(1)}%\n`;
+	if (inflation >0 || appreciation  >0){
+        result +=`Inflation at ${(inflation).toFixed(1)}%, and house value increase at ${(appreciation ).toFixed(1)}%\n`;
     }
 
     while (prin > 0) {
@@ -119,7 +119,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 
         }
 
-        homeValue *= 1 + (valueIncrease * .01 / 12.0);
+        homeValue *= 1 + (appreciation * .01 / 12.0);
         dollarValue *= 1 - (inflation * .01 / 12.0);
 		
     }
@@ -146,7 +146,7 @@ function CalcMorg(startingBal, prin, rate, payment, minPayment, constPrinPayment
 	}
     result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(0)}\n`;
     result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
-	if (valueIncrease != 0){
+	if (appreciation != 0){
         result += `House value monthly change (avg adj): $${((homeValue * dollarValue - startingBal) / month).toFixed(0)}\n`;
         result += `House is worth: $${(homeValue).toFixed(2)} in current dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted\n`;
 	}
@@ -171,14 +171,14 @@ function ReCalc() {
     morgInfo.maxRatioWithPmi = GetValue("maxRatioWithPmi");
     morgInfo.pmi = GetValue("pmi");
     morgInfo.taxes = GetValue("taxes");
-    morgInfo.valueIncrease = GetValue("valueIncrease");
+    morgInfo.appreciation = GetValue("appreciation");
     morgInfo.inflation = GetValue("inflation");
     var logging = GetCheckboxValue("logging");
 
     SaveMorgInfo(morgInfo);
 
     document.getElementsByClassName("mortgageStats")[0].textContent = "";
-    CalcMorg(morgInfo.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.valueIncrease, morgInfo.inflation, logging);
+    CalcMorg(morgInfo.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
 
 }
 
@@ -195,7 +195,8 @@ function GetValueString(className) {
     if (elements[0] == null || elements[0] == undefined) {
         return null;
     }
-    return elements[0].value;
+    var value = elements[0].value;
+    return value.replace(",","");
 }
 
 function SetValue(className, value) {
@@ -251,7 +252,7 @@ function InitialValues(){
     SetValue("maxRatioWithPmi", cookie.maxRatioWithPmi);
     SetValue("pmi", cookie.pmi);
     SetValue("taxes", cookie.taxes);
-    SetValue("valueIncrease", cookie.valueIncrease);
+    SetValue("appreciation", cookie.appreciation);
     SetValue("inflation", cookie.inflation);
 }
 
