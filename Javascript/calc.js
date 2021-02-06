@@ -128,7 +128,7 @@ function CalcMorg(morgInfo)
                 currentRentRate = rentRate / dollarValue;
             }
             else if (rentPropValue){
-                currentRentRate = rentPropValuePercentageate * homeValue;
+                currentRentRate = rentPropValuePercentage * homeValue;
             }
 
             if (logging) {
@@ -153,14 +153,15 @@ function CalcMorg(morgInfo)
 
         // pmi complete check
         if (pmi > 0) {
-            pmiPaid += pmi;
-            adjustedPmiPaid += pmi * dollarValue;
             if (homeValue * .8 > prin) {
                 pmi = 0;
                 pmiMonth = month;
                 if (logging) {
                     console.log("PMI PAID OFF");
                 }
+                
+            pmiPaid += pmi;
+            adjustedPmiPaid += pmi * dollarValue;
             }
         }
         if (logging) {
