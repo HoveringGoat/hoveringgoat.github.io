@@ -41,6 +41,10 @@ function CalcMorg(morgInfo)
     var currentRentRate = rentRate;
     var rentPropValuePercentage = rentRate / startingHomeValue;
 
+    var result = "";
+    result += `Starting property value: ${startingHomeValue}\n`;
+    result += `Starting loan amount: ${startingPrincipal}\n`;
+    
 	if (startingHomeValue == 0){
 		startingHomeValue = prin;
 	}
@@ -62,17 +66,11 @@ function CalcMorg(morgInfo)
     }
 
 	if (inflation >0 || appreciation  >0){
-        result +=`Inflation at ${(inflation).toFixed(1)}%, and house value increase at ${(appreciation ).toFixed(1)}%\n`;
+        result +=`Inflation at ${(inflation).toFixed(1)}%, and property value increase at ${(appreciation ).toFixed(1)}%\n`;
     }
 
     while (prin > 0) {
         month += 1;
-
-
-
-
-
-
         new_mInt = (prin * rate) / (100 * 12.0);
 
         if (constPrinPayment > 0) {
@@ -184,10 +182,6 @@ function CalcMorg(morgInfo)
         paidOff = false;
     }
 
-    var result = "";
-    result += `Starting home value: ${startingHomeValue}\n`;
-    result += `Starting loan amount: ${startingPrincipal}\n`;
-
     if (infinte) {
         result += "Loan never ends. Stats are after 100 years and you die.\n";
         result += `Remaining balance: $${(prin).toFixed(2)}\n`;
@@ -228,7 +222,7 @@ function CalcMorg(morgInfo)
     else{
         result+= `\n`;
     }
-    
+
 	if (taxesPaid > 0){
         result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}`
         if ((inflation != 0) && !hideAdj){
