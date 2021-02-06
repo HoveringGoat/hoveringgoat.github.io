@@ -44,7 +44,7 @@ function CalcMorg(morgInfo)
     var result = "";
     result += `Starting property value: ${startingHomeValue}\n`;
     result += `Starting loan amount: ${startingPrincipal}\n`;
-    
+
 	if (startingHomeValue == 0){
 		startingHomeValue = prin;
 	}
@@ -57,9 +57,6 @@ function CalcMorg(morgInfo)
 
     if (constPrinPayment > 0) {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
-    }
-    else {
-        result +=`payment of ${(payment).toFixed(2)}\n`;
     }
     if ((maxRatio > 0) && (payment > minPayment)) {
         result +=`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%\n`;
