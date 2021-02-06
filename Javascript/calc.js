@@ -55,7 +55,7 @@ function CalcMorg(morgInfo)
         payment = minPayment;
     }
         
-    result +=`Interest rate: ${(interestRate).toFixed(1)}%\n`;
+    result +=`Interest rate: ${(rate).toFixed(1)}%\n`;
 
     if (constPrinPayment > 0) {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
