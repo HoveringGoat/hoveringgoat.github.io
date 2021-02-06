@@ -1,6 +1,7 @@
 function CalcMorg(morgInfo)
 {
-    var startingBal = morgInfo.startingBal;
+    var startingHomeValue = morgInfo.startingHomeValue;
+    var startingPrincipal = morgInfo.prin;
     var prin = morgInfo.prin;
     var rate = morgInfo.rate;
     var payment = morgInfo.payment;
@@ -29,24 +30,21 @@ function CalcMorg(morgInfo)
     var adjustedTotalInt = 0;
     var adjustedTotPay = 0;
     var dollarValue = 1;
-    var homeValue = startingBal;
+    var homeValue = startingHomeValue;
 	var infinte = false;
     var nowDate = (Date.now()/1000/60/60/24/365+1970).toFixed(0);
 	var thenDate = nowDate;
 
-	if (startingBal == 0){
-		startingBal = prin;
+	if (startingHomeValue == 0){
+		startingHomeValue = prin;
 	}
 	if (prin == 0){
-		prin = startingBal;
+		prin = startingHomeValue;
 	}
     if (payment < minPayment) {
         payment = minPayment;
     }
 
-    var result = "";
-    result += `Starting home value: ${homeValue}\n`;
-    result += `Starting loan amount: ${prin}\n`;
     if (constPrinPayment > 0) {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
     }
@@ -154,6 +152,9 @@ function CalcMorg(morgInfo)
         paidOff = false;
     }
 
+    var result = "";
+    result += `Starting home value: ${startingHomeValue}\n`;
+    result += `Starting loan amount: ${startingPrincipal}\n`;
 
     if (infinte) {
         result += "Loan never ends. Stats are after 100 years and you die.\n";
@@ -166,32 +167,105 @@ function CalcMorg(morgInfo)
         result += `Spent ${((month - month % 12) / 12).toFixed(0)} years and ${(month % 12).toFixed(0)} months paying off loan. Remaining balance: $${prin.toFixed(2)}\n`;
     }
 
-    result += `Total interest paid: $${(totalInt).toFixed(2)}, avg: $${(totalInt / month).toFixed(2)}, adj: $${(adjustedTotalInt).toFixed(2)}, adj avg: $${(adjustedTotalInt / month).toFixed(2)}\n`;
+    result += `Total interest paid: $${(totalInt).toFixed(2)}, avg: $${(totalInt / month).toFixed(2)}`;
+
+    if (inflation != 0){
+        result += `, adj: $${(adjustedTotalInt).toFixed(2)}, adj avg: $${(adjustedTotalInt / month).toFixed(2)}\n`;
+    }
+    else{
+        result+= `\n`;
+    }
+
     if (pmiStart > 0) {
         result += `Paid pmi off in ${((pmiMonth - pmiMonth % 12) / 12).toFixed(0)} years and ${(pmiMonth % 12).toFixed(0)} months\n`;
     }
 	if (pmiPaid > 0){
-        result += `Total pmi paid: $${(pmiPaid).toFixed(2)}, adj total: $${(adjustedPmiPaid / month).toFixed(2)}\n`;
+        result += `Total pmi paid: $${(pmiPaid).toFixed(2)}`;
+        if (inflation != 0){
+            result += `, adj total: $${(adjustedPmiPaid / month).toFixed(2)}\n`;
+        }
+        else{
+            result+= `\n`;
+        }
     }
 
     result += `Average payment: $${(totPay / month).toFixed(2)}, adj: $${(adjustedTotPay / month).toFixed(2)}\n`;
 	if (taxesPaid > 0){
-        result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}\n`;
+        result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}`
+        if (inflation != 0){
+            result +=`, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}\n`;
+        }
+        else{
+            result+= `\n`;
+        }
+    }
+
+    result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}`;
+
+    if (inflation != 0){
+        result += `, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(2)}\n`;
+    }
+    else{
+        result+= `\n`;
+    }
+    if (pmiPaid + taxesPaid > 0){
+        result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}`;
+        if (inflation != 0){
+            result += `, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
 	}
 
-    result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(2)}\n`;
-    result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
-	if (appreciation != 0){
-        result += `House appreciation monthly change (avg adj): $${((homeValue * dollarValue - prin) / month).toFixed(2)}\n`;
-        result += `House is worth: $${(homeValue).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue).toFixed(2)} adjusted (${nowDate} dollars)\n`;
+    result += `Total actually paid: $${(totPay).toFixed(0)}`
+    if (inflation != 0){
+       result += `, adj: $${(adjustedTotPay).toFixed(2)}\n`;
+    }
+    else{
+        result += `\n`;
+    }
+
+    if (appreciation != 0){
+        var intialInvestment = startingHomeValue - startingPrincipal;
+        result += `House appreciation monthly change: $${((homeValue - prin - intialInvestment) / month).toFixed(2)}`
+
+        if (inflation != 0){
+            result += `, adj: $${((homeValue * dollarValue - prin) / month).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
+        result += `House is worth: $${(homeValue).toFixed(2)}`
+        if (inflation != 0){
+            result +=`, adj: $${(homeValue * dollarValue).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
 	   
-       if (!paidOff){
-        result += `Current value to you: $${(homeValue-prin).toFixed(2)} in ${thenDate} dollars and $${(homeValue * dollarValue-prin).toFixed(2)} adjusted (${nowDate} dollars)\n`;
-       }
+        result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${(homeValue-prin).toFixed(2)}`;
+
+        if (inflation != 0){
+            result += `, adj: $${(homeValue * dollarValue-prin).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
+
+        var totalGross = (homeValue-prin) - (startingHomeValue - startingPrincipal + totPay);
+        result += `Total gross profit $${totalGross.toFixed(2)}`;
+
+        if (inflation != 0){
+            result += `, adj: $${(totalGross * dollarValue).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
     }
 
 	if (inflation != 0){
-        result += `Inflation has reduced the value of a dollar to $${(dollarValue).toFixed(2)} over the life of the loan\n`;
+        result += `$100.00 in ${thenDate} dollars is worth $${(100 * dollarValue).toFixed(2)} adjusted (${nowDate} dollars) - due to inflation.`;
     }
 
     console.log(result);
@@ -201,7 +275,7 @@ function CalcMorg(morgInfo)
 function ReCalc() {
     console.log("\n");
     var morgInfo = new Object();
-    morgInfo.startingBal = GetValue("loanAmount");
+    morgInfo.startingHomeValue = GetValue("loanAmount");
     morgInfo.prin = GetValue("principal");
     morgInfo.rate = GetValue("interestRate");
     morgInfo.payment = GetValue("payment");
@@ -219,7 +293,7 @@ function ReCalc() {
     SaveMorgInfo(morgInfo);
 
     document.getElementsByClassName("mortgageStats")[0].textContent = "";
-    CalcMorg(morgInfo); //.startingBal, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
+    CalcMorg(morgInfo); //.startingHomeValue, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
 
 }
 
@@ -283,7 +357,7 @@ function InitialValues(){
     }
     var cookie = JSON.parse(c);
 
-    SetValue("loanAmount", cookie.startingBal);
+    SetValue("loanAmount", cookie.startingHomeValue);
     SetValue("principal", cookie.prin);
     SetValue("interestRate", cookie.rate);
     SetValue("payment", cookie.payment);
