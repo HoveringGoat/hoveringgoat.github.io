@@ -13,14 +13,17 @@
 	<div class = "inputHolder"><label>Annual interest rate:</label><input class="interestRate" type ="text" value="0"></div>
 	<div class = "inputHolder"><label>Monthly payment:</label><input class="payment" type ="text" value="0"></div>
 	<div class = "inputHolder"><label>Minimum Payment:</label><input class="minimumPayment" type ="text" value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>constPrinPayment:</label><input class="constPrinPayment" type ="text" value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>maxRatio:</label><input class="maxRatio" type ="text" value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>maxRatioWithPmi:</label><input class="maxRatioWithPmi" type ="text" value="0"></div>
+	<div class = "inputHolder superadvancedInput hide"><label>constPrinPayment:</label><input class="constPrinPayment" type ="text" value="0"></div>
+	<div class = "inputHolder superadvancedInput hide"><label>maxRatio:</label><input class="maxRatio" type ="text" value="0"></div>
+	<div class = "inputHolder superadvancedInput hide"><label>maxRatioWithPmi:</label><input class="maxRatioWithPmi" type ="text" value="0"></div>
 	<div class = "inputHolder"><label>Monthly PMI:</label><input class="pmi" type ="text" value="0"></div>
 	<div class = "inputHolder"><label>Monthly taxes:</label><input class="taxes" type ="text" value="0"></div>
 	<div class = "inputHolder advancedInput hide"><label>Appreciation rate:</label><input class="appreciation" type ="text" value="0"></div>
 	<div class = "inputHolder advancedInput hide"><label>Inflation rate:</label><input class="inflation" type ="text"value="0"></div>
 	<div class = "inputHolder advancedInput hide"><label>Stop after (months):</label><input class="stopAfter" type ="text"value="0"></div>
+	<div class = "inputHolder advancedInput hide"><label>Rent out unit (monthly rate):</label><input class="RentRate" type ="text"value="0"></div>
+	<div class = "inputHolder advancedInput hide"><label>Increase rent with inflation:</label><input class="rentInflation" type ="checkbox"></div>
+	<div class = "inputHolder advancedInput hide"><label>Increase rent with prop value:</label><input class="rentPropValue" type ="checkbox"></div>
 	<div class = "inputHolder advancedInput hide"><label>Logging:</label><input class="logging" type ="checkbox"></div>
 	<button onclick = "ReCalc()">Calculate Mortgage</button>
     <div class="mortgageStats"></div>
