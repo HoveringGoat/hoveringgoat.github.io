@@ -15,7 +15,9 @@ function CalcMorg(morgInfo)
     var inflation = morgInfo.inflation;
     var stopAfter = morgInfo.stopAfter;
     var logging = morgInfo.logging;
-
+    var rentRate = morgInfo.rentRate;
+    var rentInflation = morgInfo.rentInflation;
+    var rentPropValue = morgInfo.rentPropValue;
     var pmiStart = pmi;
     var pmiMonth = 0;
     var pmiPaid = 0;
@@ -34,6 +36,9 @@ function CalcMorg(morgInfo)
 	var infinte = false;
     var nowDate = (Date.now()/1000/60/60/24/365+1970).toFixed(0);
 	var thenDate = nowDate;
+    var totalRentPaid = 0;
+    var currentRentRate = rentRate;
+    var rentPropValuePercentage = rentRate / startingHomeValue;
 
 	if (startingHomeValue == 0){
 		startingHomeValue = prin;
@@ -61,6 +66,12 @@ function CalcMorg(morgInfo)
 
     while (prin > 0) {
         month += 1;
+
+
+
+
+
+
         new_mInt = (prin * rate) / (100 * 12.0);
 
         if (constPrinPayment > 0) {
@@ -111,6 +122,23 @@ function CalcMorg(morgInfo)
         prin += taxes;
         prin += pmi;
 
+        // pay rent
+        if (rentRate != 0){
+            if (rentInflation){
+                currentRentRate = rentRate / dollarValue;
+            }
+            else if (rentPropValue){
+                currentRentRate = rentPropValuePercentageate * homeValue;
+            }
+
+            if (logging) {
+                console.log(`Rent paid: {currentRentRate}`;
+            }
+            
+            totalRentPaid += currentRentRate;
+        }
+
+        // calc year
         if (month % 12 == 0)
         {
             thenDate++;
@@ -122,6 +150,8 @@ function CalcMorg(morgInfo)
 				break;
 			}
 		}
+
+        // pmi complete check
         if (pmi > 0) {
             pmiPaid += pmi;
             adjustedPmiPaid += pmi * dollarValue;
@@ -226,6 +256,25 @@ function CalcMorg(morgInfo)
         result += `\n`;
     }
 
+    if (totalRentPaid != 0){
+        result += `Total rent earned: $${totalRentPaid.toFixed(2)}, avg: $${(totalRentPaid/month).toFixed(2)}`;
+        if (inflation != 0){
+            result += `, adj: $${(totalRentPaid*dollarValue).toFixed(2)}, avg: $${(totalRentPaid*dollarValue/month).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
+
+        var monthlyCashFlow = (totalRentPaid - totPay)/month;
+        result += `Average monthly cashflow: $${monthlyCashFlow.toFixed(2)}`;
+        if (inflation != 0){
+            result += `, adj: $${(monthlyCashFlow*dollarValue).toFixed(2)}\n`;
+        }
+        else{
+            result += `\n`;
+        }
+    }
+
     if (appreciation != 0){
         var intialInvestment = startingHomeValue - startingPrincipal;
         result += `House appreciation monthly change: $${((homeValue - prin - intialInvestment) / month).toFixed(2)}`
@@ -253,7 +302,7 @@ function CalcMorg(morgInfo)
             result += `\n`;
         }
 
-        var totalGross = (homeValue-prin) - (startingHomeValue - startingPrincipal + totPay);
+        var totalGross = (homeValue-prin) - (startingHomeValue - startingPrincipal + totPay) + totalRentPaid;
         result += `Total gross profit $${totalGross.toFixed(2)}`;
 
         if (inflation != 0){
@@ -287,7 +336,10 @@ function ReCalc() {
     morgInfo.taxes = GetValue("taxes");
     morgInfo.appreciation = GetValue("appreciation");
     morgInfo.inflation = GetValue("inflation");
-    morgInfo.stopAfter = GetValue("stopAfter")
+    morgInfo.stopAfter = GetValue("stopAfter");
+    morgInfo.rentRate = GetValue("RentRate");
+    morgInfo.rentInflation = GetCheckboxValue("rentInflation");
+    morgInfo.rentPropValue = GetCheckboxValue("rentPropValue");
     morgInfo.logging = GetCheckboxValue("logging");
 
     SaveMorgInfo(morgInfo);
@@ -319,6 +371,10 @@ function SetValue(className, value) {
     if (elements[0] == null || elements[0] == undefined) {
         return null;
     }
+    if (value == null || value == undefined){
+        value = 0;
+    }
+
     elements[0].setAttribute("value", value);
     elements[0].value = value;
 }
@@ -369,6 +425,9 @@ function InitialValues(){
     SetValue("taxes", cookie.taxes);
     SetValue("appreciation", cookie.appreciation);
     SetValue("stopAfter", cookie.stopAfter);
+    SetValue("rentRate", cookie.rentRate);
+    SetValue("rentInflation", cookie.rentInflation);
+    SetValue("rentPropValue", cookie.rentPropValue);
     SetValue("inflation", cookie.inflation);
 }
 
