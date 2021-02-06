@@ -18,6 +18,7 @@ function CalcMorg(morgInfo)
     var rentRate = morgInfo.rentRate;
     var rentInflation = morgInfo.rentInflation;
     var rentPropValue = morgInfo.rentPropValue;
+    var hideAdj = morgInfo.hideAdj;
     var pmiStart = pmi;
     var pmiMonth = 0;
     var pmiPaid = 0;
@@ -159,7 +160,7 @@ function CalcMorg(morgInfo)
                 if (logging) {
                     console.log("PMI PAID OFF");
                 }
-                
+
             pmiPaid += pmi;
             adjustedPmiPaid += pmi * dollarValue;
             }
@@ -200,7 +201,7 @@ function CalcMorg(morgInfo)
 
     result += `Total interest paid: $${(totalInt).toFixed(2)}, avg: $${(totalInt / month).toFixed(2)}`;
 
-    if (inflation != 0){
+    if ((inflation != 0) && !hideAdj){
         result += `, adj: $${(adjustedTotalInt).toFixed(2)}, adj avg: $${(adjustedTotalInt / month).toFixed(2)}\n`;
     }
     else{
@@ -212,7 +213,7 @@ function CalcMorg(morgInfo)
     }
 	if (pmiPaid > 0){
         result += `Total pmi paid: $${(pmiPaid).toFixed(2)}`;
-        if (inflation != 0){
+        if ((inflation != 0) && !hideAdj){
             result += `, adj total: $${(adjustedPmiPaid / month).toFixed(2)}\n`;
         }
         else{
@@ -220,10 +221,17 @@ function CalcMorg(morgInfo)
         }
     }
 
-    result += `Average payment: $${(totPay / month).toFixed(2)}, adj: $${(adjustedTotPay / month).toFixed(2)}\n`;
+    result += `Average payment: $${(totPay / month).toFixed(2)}`;
+    if ((inflation != 0) && !hideAdj){
+        result +=`, adj: $${(adjustedTotPay / month).toFixed(2)}\n`;
+    }
+    else{
+        result+= `\n`;
+    }
+    
 	if (taxesPaid > 0){
         result += `Total taxes paid: $${(taxesPaid).toFixed(2)}, avg: $${(taxesPaid / month).toFixed(2)}`
-        if (inflation != 0){
+        if ((inflation != 0) && !hideAdj){
             result +=`, adj: $${(adjustedTaxesPaid).toFixed(2)}, adj avg: $${(adjustedTaxesPaid / month).toFixed(2)}\n`;
         }
         else{
@@ -233,7 +241,7 @@ function CalcMorg(morgInfo)
 
     result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}`;
 
-    if (inflation != 0){
+    if ((inflation != 0) && !hideAdj){
         result += `, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(2)}\n`;
     }
     else{
@@ -241,7 +249,7 @@ function CalcMorg(morgInfo)
     }
     if (pmiPaid + taxesPaid > 0){
         result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}`;
-        if (inflation != 0){
+        if ((inflation != 0) && !hideAdj){
             result += `, avg adj: $${((adjustedPmiPaid + adjustedTaxesPaid + adjustedTotalInt) / month).toFixed(2)}\n`;
         }
         else{
@@ -250,7 +258,7 @@ function CalcMorg(morgInfo)
 	}
 
     result += `Total actually paid: $${(totPay).toFixed(0)}`
-    if (inflation != 0){
+    if ((inflation != 0) && !hideAdj){
        result += `, adj: $${(adjustedTotPay).toFixed(2)}\n`;
     }
     else{
@@ -259,7 +267,7 @@ function CalcMorg(morgInfo)
 
     if (totalRentPaid != 0){
         result += `Total rent earned: $${totalRentPaid.toFixed(2)}, avg: $${(totalRentPaid/month).toFixed(2)}`;
-        if (inflation != 0){
+        if ((inflation != 0) && !hideAdj){
             result += `, adj: $${(totalRentPaid*dollarValue).toFixed(2)}, avg: $${(totalRentPaid*dollarValue/month).toFixed(2)}\n`;
         }
         else{
@@ -268,7 +276,7 @@ function CalcMorg(morgInfo)
 
         var monthlyCashFlow = (totalRentPaid - totPay)/month;
         result += `Average monthly cashflow: $${monthlyCashFlow.toFixed(2)}`;
-        if (inflation != 0){
+        if ((inflation != 0) && !hideAdj){
             result += `, adj: $${(monthlyCashFlow*dollarValue).toFixed(2)}\n`;
         }
         else{
@@ -276,46 +284,45 @@ function CalcMorg(morgInfo)
         }
     }
 
-    if (appreciation != 0){
-        var intialInvestment = startingHomeValue - startingPrincipal;
-        result += `House appreciation monthly change: $${((homeValue - prin - intialInvestment) / month).toFixed(2)}`
+    //Equity and value increase (applicable even if not setting appreciation rates)
+    var intialInvestment = startingHomeValue - startingPrincipal;
+    result += `Property equity monthly change: $${((homeValue - prin - intialInvestment) / month).toFixed(2)}`
 
-        if (inflation != 0){
-            result += `, adj: $${((homeValue * dollarValue - prin) / month).toFixed(2)}\n`;
-        }
-        else{
-            result += `\n`;
-        }
-        result += `House is worth: $${(homeValue).toFixed(2)}`
-        if (inflation != 0){
-            result +=`, adj: $${(homeValue * dollarValue).toFixed(2)}\n`;
-        }
-        else{
-            result += `\n`;
-        }
-	   
-        result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${(homeValue-prin).toFixed(2)}`;
+    if ((inflation != 0) && !hideAdj){
+        result += `, adj: $${((homeValue * dollarValue - prin) / month).toFixed(2)}\n`;
+    }
+    else{
+        result += `\n`;
+    }
+    result += `Property is worth: $${(homeValue).toFixed(2)}`
+    if ((inflation != 0) && !hideAdj){
+        result +=`, adj: $${(homeValue * dollarValue).toFixed(2)}\n`;
+    }
+    else{
+        result += `\n`;
+    }
+   
+    result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${(homeValue-prin).toFixed(2)}`;
 
-        if (inflation != 0){
-            result += `, adj: $${(homeValue * dollarValue-prin).toFixed(2)}\n`;
-        }
-        else{
-            result += `\n`;
-        }
-
-        var totalGross = (homeValue-prin) - (startingHomeValue - startingPrincipal + totPay) + totalRentPaid;
-        result += `Total gross profit $${totalGross.toFixed(2)}`;
-
-        if (inflation != 0){
-            result += `, adj: $${(totalGross * dollarValue).toFixed(2)}\n`;
-        }
-        else{
-            result += `\n`;
-        }
+    if ((inflation != 0) && !hideAdj){
+        result += `, adj: $${(homeValue * dollarValue-prin).toFixed(2)}\n`;
+    }
+    else{
+        result += `\n`;
     }
 
-	if (inflation != 0){
-        result += `$100.00 in ${thenDate} dollars is worth $${(100 * dollarValue).toFixed(2)} adjusted (${nowDate} dollars) - due to inflation.`;
+    var totalGross = (homeValue-prin) - (startingHomeValue - startingPrincipal + totPay) + totalRentPaid;
+    result += `Total gross profit $${totalGross.toFixed(2)}`;
+
+    if ((inflation != 0) && !hideAdj){
+        result += `, adj: $${(totalGross * dollarValue).toFixed(2)}\n`;
+    }
+    else{
+        result += `\n`;
+    }
+
+	if ((inflation != 0) && !hideAdj){
+        result += `$100.00 in ${thenDate} dollars is worth $${(100 * dollarValue).toFixed(2)} adjusted (${nowDate} dollars) due to inflation.`;
     }
 
     console.log(result);
@@ -341,6 +348,7 @@ function ReCalc() {
     morgInfo.rentRate = GetValue("RentRate");
     morgInfo.rentInflation = GetCheckboxValue("rentInflation");
     morgInfo.rentPropValue = GetCheckboxValue("rentPropValue");
+    morgInfo.hideAdj = GetCheckboxValue("hideAdj");
     morgInfo.logging = GetCheckboxValue("logging");
 
     SaveMorgInfo(morgInfo);
