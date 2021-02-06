@@ -54,6 +54,8 @@ function CalcMorg(morgInfo)
     if (payment < minPayment) {
         payment = minPayment;
     }
+        
+    result +=`Interest rate: ${(interestRate).toFixed(1)}%\n`;
 
     if (constPrinPayment > 0) {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
@@ -63,7 +65,7 @@ function CalcMorg(morgInfo)
     }
 
 	if (inflation >0 || appreciation  >0){
-        result +=`Inflation at ${(inflation).toFixed(1)}%, and property value increase at ${(appreciation ).toFixed(1)}%\n`;
+        result +=`Inflation at ${(inflation).toFixed(1)}%, and property appreciation at ${(appreciation ).toFixed(1)}%\n`;
     }
 
     while (prin > 0) {
@@ -228,16 +230,16 @@ function CalcMorg(morgInfo)
         else{
             result+= `\n`;
         }
+
+        result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}`;
+        if ((inflation != 0) && !hideAdj){
+            result += `, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(2)}\n`;
+        }
+        else{
+            result+= `\n`;
+        }
     }
 
-    result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}`;
-
-    if ((inflation != 0) && !hideAdj){
-        result += `, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(2)}\n`;
-    }
-    else{
-        result+= `\n`;
-    }
     if (pmiPaid + taxesPaid > 0){
         result += `Money pissed away each month on avg: $${((pmiPaid + taxesPaid + totalInt) / month).toFixed(2)}`;
         if ((inflation != 0) && !hideAdj){
@@ -266,9 +268,9 @@ function CalcMorg(morgInfo)
         }
 
         var monthlyCashFlow = (totalRentPaid - totPay)/month;
-        result += `Average monthly cashflow: $${monthlyCashFlow.toFixed(2)}`;
+        result += `Average monthly cashflow: $${monthlyCashFlow.toFixed(2)}, Last month cashflow: $${(currentRentRate-payment).toFixed(2)}`;
         if ((inflation != 0) && !hideAdj){
-            result += `, adj: $${(monthlyCashFlow*dollarValue).toFixed(2)}\n`;
+            result += `, adj: $${(monthlyCashFlow*dollarValue).toFixed(2)}, Last month cashflow: $${((currentRentRate-payment)*dollarValue).toFixed(2)}\n`;
         }
         else{
             result += `\n`;
