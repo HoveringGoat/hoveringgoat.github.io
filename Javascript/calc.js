@@ -132,7 +132,7 @@ function CalcMorg(morgInfo)
             }
 
             if (logging) {
-                console.log(`Rent paid: {currentRentRate}`;
+                console.log(`Rent paid: {currentRentRate}`);
             }
             
             totalRentPaid += currentRentRate;
