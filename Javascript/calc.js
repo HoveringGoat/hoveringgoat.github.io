@@ -409,13 +409,13 @@ function AdvOptionsToggle(){
 }
 
 function InitialValues(){
-    const urlParams = new URLSearchParams(window.location.search);
+    var urlParams = new URLSearchParams(window.location.search);
+    var cookie = new Object();
+    var runImmediately = false;
 
-    var cookie = JSON.parse("none:empty")
-    bool runImmediately = false;
-
-    if (urlParams != null){
+    if (urlParams.has('loanAmount')){
         cookie.startingHomeValue = urlParams.get('loanAmount');
+
         cookie.prin = urlParams.get('principal');
         cookie.rate = urlParams.get('interestRate');
         cookie.payment = urlParams.get('payment');
@@ -438,7 +438,7 @@ function InitialValues(){
         if (c == "") {
             return;
         }
-        cookie = JSON.parse(c);
+        var cookie = JSON.parse(c);
     }
 
     SetValue("loanAmount", cookie.startingHomeValue);
@@ -489,4 +489,45 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function CopySearch(){
+    var searchUrl = window.location.href.split('?')[0] + "?";
+    searchUrl+= getSearchValueParameterString("loanAmount");
+    searchUrl+=getSearchValueParameterString("principal");
+    searchUrl+=getSearchValueParameterString("interestRate");
+    searchUrl+=getSearchValueParameterString("payment");
+    searchUrl+=getSearchValueParameterString("minimumPayment");
+    searchUrl+=getSearchValueParameterString("constPrinPayment");
+    searchUrl+=getSearchValueParameterString("maxRatio");
+    searchUrl+=getSearchValueParameterString("maxRatioWithPmi");
+    searchUrl+=getSearchValueParameterString("pmi");
+    searchUrl+=getSearchValueParameterString("taxes");
+    searchUrl+=getSearchValueParameterString("appreciation");
+    searchUrl+=getSearchValueParameterString("inflation");
+    searchUrl+=getSearchValueParameterString("stopAfter");
+    searchUrl+=getSearchValueParameterString("rentRate");
+    searchUrl+=getSearchValueParameterString("rentInflation");
+    searchUrl+=getSearchValueParameterString("rentPropValue");
+
+    copyToClipboard(searchUrl)
+}
+
+const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+
+function getSearchValueParameterString(cname){
+    var v = GetValue(cname)
+    if (v != null && v != 0)
+    {
+        var s = cname+"="+v+"&"
+        return s;
+    }
+    return ""
 }
