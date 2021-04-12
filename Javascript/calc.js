@@ -411,7 +411,7 @@ function AdvOptionsToggle(){
 function InitialValues(){
     const urlParams = new URLSearchParams(window.location.search);
 
-    Object cookie = new Object();
+    var cookie = JSON.parse("none:empty")
     bool runImmediately = false;
 
     if (urlParams != null){
