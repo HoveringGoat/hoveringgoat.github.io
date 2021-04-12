@@ -409,11 +409,37 @@ function AdvOptionsToggle(){
 }
 
 function InitialValues(){
-    var c = getCookie("mortgageInfo");
-    if (c == "") {
-        return;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    Object cookie = new Object();
+    bool runImmediately = false;
+
+    if (urlParams != null){
+        cookie.startingHomeValue = urlParams.get('loanAmount');
+        cookie.prin = urlParams.get('principal');
+        cookie.rate = urlParams.get('interestRate');
+        cookie.payment = urlParams.get('payment');
+        cookie.minPayment = urlParams.get('minimumPayment');
+        cookie.constPrinPayment = urlParams.get('constPrinPayment');
+        cookie.maxRatioWithPmi = urlParams.get('maxRatioWithPmi');
+        cookie.pmi = urlParams.get('pmi');
+        cookie.taxes = urlParams.get('taxes');
+        cookie.appreciation = urlParams.get('appreciation');
+        cookie.stopAfter = urlParams.get('stopAfter');
+        cookie.rentRate = urlParams.get('rentRate');
+        cookie.rentInflation = urlParams.get('rentInflation');
+        cookie.rentPropValue = urlParams.get('rentPropValue');
+        cookie.inflation = urlParams.get('inflation');
+        runImmediately = true;
     }
-    var cookie = JSON.parse(c);
+    else
+    {
+        var c = getCookie("mortgageInfo");
+        if (c == "") {
+            return;
+        }
+        cookie = JSON.parse(c);
+    }
 
     SetValue("loanAmount", cookie.startingHomeValue);
     SetValue("principal", cookie.prin);
@@ -431,6 +457,10 @@ function InitialValues(){
     SetValue("rentInflation", cookie.rentInflation);
     SetValue("rentPropValue", cookie.rentPropValue);
     SetValue("inflation", cookie.inflation);
+
+    if (runImmediately){
+        ReCalc();
+    }
 }
 
 function SaveMorgInfo(morgInfo) {
