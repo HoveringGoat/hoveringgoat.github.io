@@ -509,7 +509,7 @@ function CopySearch(){
     searchUrl+=getSearchValueParameterString("rentRate");
     searchUrl+=getSearchValueParameterString("rentInflation");
     searchUrl+=getSearchValueParameterString("rentPropValue");
-
+    searchUrl = searchUrl.replace(/&+$/g, '');
     copyToClipboard(searchUrl)
 }
 
@@ -524,7 +524,7 @@ const copyToClipboard = str => {
 
 function getSearchValueParameterString(cname){
     var v = GetValue(cname)
-    if (v != null && v != 0)
+    if (v != NaN && v != 0 && v != null)
     {
         var s = cname+"="+v+"&"
         return s;
