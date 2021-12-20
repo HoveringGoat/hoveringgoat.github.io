@@ -137,7 +137,7 @@ function CalcMorg(morgInfo)
             }
 
             if (logging) {
-                console.log(`Rent paid: {currentRentRate}`);
+                console.log(`Rent paid: ${(currentRentRate).toFixed(2)}`);
             }
             
             totalRentPaid += currentRentRate;
