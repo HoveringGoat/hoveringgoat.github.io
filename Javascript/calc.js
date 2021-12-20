@@ -440,7 +440,7 @@ function InitialValues(){
         cookie.taxes = urlParams.get('taxes');
         cookie.appreciation = urlParams.get('appreciation');
         cookie.stopAfter = urlParams.get('stopAfter');
-        cookie.rentRate = urlParams.get('rentRate
+        cookie.rentRate = urlParams.get('rentRate');
         cookie.paymentInflation = urlParams.get('paymentInflation');
         cookie.rentInflation = urlParams.get('rentInflation');
         cookie.rentPropValue = urlParams.get('rentPropValue');
