@@ -36,7 +36,7 @@ function CalcMorg(morgInfo)
     var dollarValue = 1;
     var homeValue = startingHomeValue;
 	var infinte = false;
-    var nowDate = (Date.now()/1000/60/60/24/365+1970).toFixed(0);
+    var nowDate = (Date.now()/(1000*60*60*24*365.24)+1970).toFixed(0);
 	var thenDate = nowDate;
     var totalRentPaid = 0;
     var currentRentRate = rentRate;
@@ -440,6 +440,7 @@ function InitialValues(){
         cookie.taxes = urlParams.get('taxes');
         cookie.appreciation = urlParams.get('appreciation');
         cookie.stopAfter = urlParams.get('stopAfter');
+        cookie.rentRate = urlParams.get('rentRate');
         cookie.rentRate = urlParams.get('rentRate');
         cookie.paymentInflation = urlParams.get('paymentInflation');
         cookie.rentInflation = urlParams.get('rentInflation');
