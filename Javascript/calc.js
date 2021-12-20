@@ -190,7 +190,13 @@ function CalcMorg(morgInfo)
 
     if (infinte) {
         result += "Loan never ends. Stats are after 100 years and you die.\n";
-        result += `Remaining balance: $${(prin).toFixed(2)}\n`;
+        result += `Remaining balance: $${(prin).toFixed(2)}`;
+        if ((inflation != 0) && !hideAdj){
+            result += `, adj total: $${(prin*dollarValue).toFixed(2)}\n`;
+        }
+        else{
+            result+= `\n`;
+        }
 	}
 	else if (paidOff){
         result += `Took ${((month - month % 12) / 12).toFixed(0)} years and ${(month % 12).toFixed(0)} months to pay off loan\n`;
