@@ -42,19 +42,20 @@ function CalcMorg(morgInfo)
     var currentRentRate = rentRate;
     var rentPropValuePercentage = rentRate / startingHomeValue;
 
-    var result = "";
-    result += `Starting property value: ${startingHomeValue}\n`;
-    result += `Starting loan amount: ${startingPrincipal}\n`;
-
 	if (startingHomeValue == 0){
 		startingHomeValue = prin;
 	}
 	if (prin == 0){
 		prin = startingHomeValue;
+		startingPrincipal = startingHomeValue;
 	}
     if (payment < minPayment) {
         payment = minPayment;
     }
+	
+    var result = "";
+    result += `Starting property value: ${startingHomeValue}\n`;
+    result += `Starting loan amount: ${startingPrincipal}\n`;
         
     result +=`Interest rate: ${(rate).toFixed(1)}%\n`;
 
