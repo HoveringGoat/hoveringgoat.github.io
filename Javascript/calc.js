@@ -16,6 +16,7 @@ function CalcMorg(morgInfo)
     var stopAfter = morgInfo.stopAfter;
     var logging = morgInfo.logging;
     var rentRate = morgInfo.rentRate;
+    var paymentInflation = morgInfo.paymentInflation;
     var rentInflation = morgInfo.rentInflation;
     var rentPropValue = morgInfo.rentPropValue;
     var hideAdj = morgInfo.hideAdj;
@@ -71,40 +72,45 @@ function CalcMorg(morgInfo)
     while (prin > 0) {
         month += 1;
         new_mInt = (prin * rate) / (100 * 12.0);
-
+		var madePayment = payment;
+		
         if (constPrinPayment > 0) {
-            payment = constPrinPayment + new_mInt + taxes + pmi;
+            madePayment = constPrinPayment + new_mInt + taxes + pmi;
         }
         if (maxRatio != 0) {
             if ((maxRatioWithPmi > 0) && (pmi > 0)) {
-                if (payment * (1-maxRatioWithPmi) > new_mInt) {
-                    payment = new_mInt / (1-maxRatioWithPmi);
+                if (madePayment * (1-maxRatioWithPmi) > new_mInt) {
+                    madePayment = new_mInt / (1-maxRatioWithPmi);
                 }
             }
-            else if (payment * (1 - maxRatio) > new_mInt) {
-                payment = new_mInt / (1 - maxRatio);
+            else if (madePayment * (1 - maxRatio) > new_mInt) {
+                madePayment = new_mInt / (1 - maxRatio);
             }
         }
 
-        if (payment < minPayment) {
-            payment = minPayment;
+        if (madePayment < minPayment) {
+            madePayment = minPayment;
         }
 		
-		if ((prin+mInt+taxes+pmi)< payment){
-            payment = prin + mInt + taxes + pmi;
+		if ((prin+mInt+taxes+pmi)< madePayment){
+            madePayment = prin + mInt + taxes + pmi;
+		}
+		
+		if (paymentInflation){
+			madePayment = madePayment/dollarValue
 		}
 
         diff = mInt - new_mInt;
         mInt = new_mInt;
         totalInt += mInt;
         adjustedTotalInt += mInt * dollarValue;
-        adjustedPayment = payment * dollarValue;
+        adjustedPayment = madePayment * dollarValue;
         taxesPaid += taxes;
         adjustedTaxesPaid += taxes * dollarValue;
 
         if (logging) {
             console.log("Month: ", month);
-            console.log(`payment of: ${(payment).toFixed(2)}, adj: ${(adjustedPayment).toFixed(2)}`);
+            console.log(`payment of: ${(madePayment).toFixed(2)}, adj: ${(adjustedPayment).toFixed(2)}`);
             console.log(`interest: ${(mInt).toFixed(2)}, adj: ${(mInt * dollarValue).toFixed(2)}`);
 
             if (diff > 0) {
@@ -113,9 +119,9 @@ function CalcMorg(morgInfo)
         }
 
 		var oldPrin = prin;
-        totPay += payment;
+        totPay += madePayment;
         adjustedTotPay += adjustedPayment;
-        prin -= payment;
+        prin -= madePayment;
         prin += mInt;
         prin += taxes;
         prin += pmi;
@@ -339,6 +345,7 @@ function ReCalc() {
     morgInfo.inflation = GetValue("inflation");
     morgInfo.stopAfter = GetValue("stopAfter");
     morgInfo.rentRate = GetValue("RentRate");
+    morgInfo.paymentInflation = GetCheckboxValue("paymentInflation");
     morgInfo.rentInflation = GetCheckboxValue("rentInflation");
     morgInfo.rentPropValue = GetCheckboxValue("rentPropValue");
     morgInfo.hideAdj = GetCheckboxValue("hideAdj");
