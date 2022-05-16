@@ -259,7 +259,7 @@ function CalcMorg(morgInfo, isReCalc)
         }
     }
 
-    if (calculatedPayment && stopAfter != 0 && month != 360)
+    if (calculatedPayment && stopAfter == 0 && month != 360)
     {
         var monthsoff = 360 - month;
         morgInfo.payment = payment - monthsoff*2;
