@@ -63,6 +63,15 @@ function CalcMorg(morgInfo)
         var paymentDem = Math.pow(1 + perPaymentInterest, loanLengthMonths) - 1;
         var paymentFraction = paymentNum/paymentDem;
         payment = startingPrincipal * paymentFraction;
+
+        // calc monthly pmi
+        var pmiValueLimit = .2 * homeValue
+        var equity = homeValue - prin;
+        var pmiMonths = (pmiValueLimit - equity) / payment
+        var pmiPaidTotal = pmiMonths * pmi;
+        var pmiPerMonth = pmiPaidTotal/loanLengthMonths;
+
+        payment += pmiPerMonth
         payment += taxes;
         calculatedPayment = true;
     }
@@ -81,7 +90,7 @@ function CalcMorg(morgInfo)
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
     }
     if (calculatedPayment) {
-        result += `Calculating payment of ${(payment).toFixed(2)} for 30yr morg.\n`;
+        result += `Calculating payment of ${(payment).toFixed(2)} for 30yr morg. (Includes taxes and pmi)\n`;
     }
     if ((maxRatio > 0) && (payment > minPayment)) {
         result +=`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%\n`;
