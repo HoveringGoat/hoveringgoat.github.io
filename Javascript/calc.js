@@ -262,8 +262,8 @@ function CalcMorg(morgInfo, isReCalc)
     if (calculatedPayment && stopAfter == 0 && month != 360)
     {
         var monthsoff = 360 - month;
-        var rngfactor = Math.random()*4;
-        morgInfo.payment = payment - monthsoff * rngfactor;
+        var factor = payment / 3000;
+        morgInfo.payment = payment - monthsoff * factor;
 
         if (logging)
         {
