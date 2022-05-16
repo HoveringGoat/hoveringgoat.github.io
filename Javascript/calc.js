@@ -67,7 +67,9 @@ function CalcMorg(morgInfo)
         // calc monthly pmi
         var pmiValueLimit = .2 * homeValue
         var equity = homeValue - prin;
-        var pmiMonths = (pmiValueLimit - equity) / payment
+        var averagePrinicipalOverPmiPeriod = ((homeValue - pmiValueLimit) + prin)/2
+        var monthlyInterest = (averagePrinicipalOverPmiPeriod * rate) / (100 * 12.0);
+        var pmiMonths = (pmiValueLimit - equity) / (payment - monthlyInterest)
         var pmiPaidTotal = pmiMonths * pmi;
         var pmiPerMonth = pmiPaidTotal/loanLengthMonths;
 
@@ -208,7 +210,7 @@ function CalcMorg(morgInfo)
         homeValue *= 1 + (appreciation * .01 / 12.0);
         dollarValue *= 1 - (inflation * .01 / 12.0);
 		
-        if (stopAfter == month){
+        if (stopAfter >= month){
             break;
         }
     }
