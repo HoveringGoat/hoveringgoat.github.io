@@ -253,7 +253,7 @@ function CalcMorg(morgInfo, isReCalc)
         homeValue *= 1 + (appreciation * .01 / 12.0);
         dollarValue *= 1 - (inflation * .01 / 12.0);
 
-        if (stopAfter >= month)
+        if (stopAfter == month)
         {
             break;
         }
