@@ -59,7 +59,10 @@ function CalcMorg(morgInfo)
         // calc 30 yr morg
         var loanLengthMonths = 12*30;
         var perPaymentInterest = (rate/100)/12;
-        payment = startingPrincipal * ((perPaymentInterest * (1+perPaymentInterest)^loanLengthMonths)/((1 + perPaymentInterest)^loanLengthMonths - 1))
+        var paymentNum = perPaymentInterest * (1+perPaymentInterest)^loanLengthMonths;
+        var paymentDem = (1 + perPaymentInterest)^loanLengthMonths - 1;
+        payment = startingPrincipal * (paymentNum/paymentDem);
+        payment += taxes;
         calculatedPayment = true;
     }
     else if (payment < minPayment)
@@ -70,9 +73,9 @@ function CalcMorg(morgInfo)
     var result = "";
     result += `Starting property value: ${startingHomeValue}\n`;
     result += `Starting loan amount: ${startingPrincipal}\n`;
-        
+
     result +=`Interest rate: ${(rate).toFixed(1)}%\n`;
-    
+
     if (constPrinPayment > 0) {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
     }
