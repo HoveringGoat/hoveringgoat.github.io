@@ -69,9 +69,22 @@ function CalcMorg(morgInfo)
         var equity = homeValue - prin;
         var averagePrinicipalOverPmiPeriod = ((homeValue - pmiValueLimit) + prin)/2
         var monthlyInterest = (averagePrinicipalOverPmiPeriod * rate) / (100 * 12.0);
-        var pmiMonths = (pmiValueLimit - equity) / (payment - monthlyInterest)
-        var pmiPaidTotal = pmiMonths * pmi;
-        var pmiPerMonth = pmiPaidTotal/loanLengthMonths;
+
+        // closeish starting value
+        var monthlyPaymentWithPmi = payment + .25*pmi;
+        var iterations = 5;
+
+        // run a couple iterations to get a close value
+        for (var i = 0; i < iterations; i++)
+        {
+            var sumToPay = pmiValueLimit - equity;
+            var prinPaymentPerMonth = monthlyPaymentWithPmi - (monthlyInterest + pmi);
+            var pmiMonths = sumToPay / prinPaymentPerMonth;
+            var pmiPaidTotal = pmiMonths * pmi;
+            var pmiPerMonth = pmiPaidTotal/loanLengthMonths;
+
+            monthlyPaymentWithPmi = payment+pmiPerMonth;
+        }
 
         payment += pmiPerMonth
         payment += taxes;
