@@ -58,7 +58,7 @@ function CalcMorg(morgInfo)
     {
         // calc 30 yr morg
         var loanLengthMonths = 12*30;
-        var perPaymentInterest = rate/12.0;
+        var perPaymentInterest = (rate/100)/12;
         payment = startingPrincipal * ((perPaymentInterest * (1+perPaymentInterest)^loanLengthMonths)/((1 + perPaymentInterest)^loanLengthMonths - 1))
         calculatedPayment = true;
     }
