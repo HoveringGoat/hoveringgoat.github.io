@@ -67,7 +67,7 @@ function CalcMorg(morgInfo)
         // calc monthly pmi
         var pmiValueLimit = .2 * homeValue
         var equity = homeValue - prin;
-        var averagePrinicipalOverPmiPeriod = ((homeValue - pmiValueLimit) + prin) / 2
+        var averagePrinicipalOverPmiPeriod = homeValue - pmiValueLimit;
         var monthlyInterest = (averagePrinicipalOverPmiPeriod * rate) / (100 * 12.0);
 
         // closeish starting value
