@@ -234,10 +234,10 @@ function CalcMorg(morgInfo)
                 {
                     console.log("PMI PAID OFF");
                 }
-
-                pmiPaid += pmi;
-                adjustedPmiPaid += pmi * dollarValue;
             }
+
+            pmiPaid += pmi;
+            adjustedPmiPaid += pmi * dollarValue;
         }
         if (logging)
         {
