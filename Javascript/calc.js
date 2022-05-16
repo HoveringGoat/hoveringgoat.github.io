@@ -57,11 +57,12 @@ function CalcMorg(morgInfo)
     if (payment == 0 && minPayment == 0)
     {
         // calc 30 yr morg
-        var loanLengthMonths = 12*30;
-        var perPaymentInterest = (rate/100)/12;
-        var paymentNum = perPaymentInterest * (1+perPaymentInterest)^loanLengthMonths;
-        var paymentDem = (1 + perPaymentInterest)^loanLengthMonths - 1;
-        payment = startingPrincipal * (paymentNum/paymentDem);
+        var loanLengthMonths = 12*30.0;
+        var perPaymentInterest = (rate/100.0)/12.0;
+        var paymentNum = perPaymentInterest * ((1.0+perPaymentInterest)^loanLengthMonths);
+        var paymentDem = ((1.0 + perPaymentInterest)^loanLengthMonths) - 1;
+        var paymentFraction = paymentNum/paymentDem;
+        payment = startingPrincipal * paymentFraction;
         payment += taxes;
         calculatedPayment = true;
     }
