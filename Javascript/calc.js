@@ -1,4 +1,4 @@
-function CalcMorg(morgInfo)
+function CalcMorg(morgInfo, isReCalc)
 {
     var startingHomeValue = morgInfo.startingHomeValue;
     var startingPrincipal = morgInfo.prin;
@@ -42,6 +42,10 @@ function CalcMorg(morgInfo)
     var currentRentRate = rentRate;
     var rentPropValuePercentage = rentRate / startingHomeValue;
     var calculatedPayment = false;
+    if (isReCalc)
+    {
+        calculatedPayment = true;
+    }
 
     if (startingHomeValue == 0)
     {
@@ -254,6 +258,22 @@ function CalcMorg(morgInfo)
             break;
         }
     }
+
+    if (calculatedPayment && stopAfter != 0 && month != 360)
+    {
+        var monthsoff = 360 - month;
+        morgInfo.payment = payment - monthsoff*2;
+
+        if (logging)
+        {
+            console.log(`Payment calculated invalid for w/e reason retrying. Old payment value: ${payment}, new payment value: ${morgInfo.payment}`);
+            console.log("\n");
+        }
+
+        CalcMorg(morgInfo, true);
+        return;
+    }
+
 
     var paidOff = true;
     if (prin > 0)
@@ -472,7 +492,7 @@ function ReCalc()
     SaveMorgInfo(morgInfo);
 
     document.getElementsByClassName("mortgageStats")[0].textContent = "";
-    CalcMorg(morgInfo); //.startingHomeValue, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
+    CalcMorg(morgInfo, false); //.startingHomeValue, morgInfo.prin, morgInfo.rate, morgInfo.payment, morgInfo.minPayment, morgInfo.constPrinPayment, morgInfo.maxRatio, morgInfo.maxRatioWithPmi, morgInfo.pmi, morgInfo.taxes, morgInfo.appreciation, morgInfo.inflation, logging);
 
 }
 
