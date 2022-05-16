@@ -41,15 +41,29 @@ function CalcMorg(morgInfo)
     var totalRentPaid = 0;
     var currentRentRate = rentRate;
     var rentPropValuePercentage = rentRate / startingHomeValue;
+    var calculatedPayment = false;
 
-	if (startingHomeValue == 0){
+	if (startingHomeValue == 0)
+    {
 		startingHomeValue = prin;
 	}
-	if (prin == 0){
+
+	if (prin == 0)
+    {
 		prin = startingHomeValue;
 		startingPrincipal = startingHomeValue;
 	}
-    if (payment < minPayment) {
+
+    if (payment == 0 && minPayment == 0)
+    {
+        // calc 30 yr morg
+        var loanLengthMonths = 12*30;
+        var perPaymentInterest = rate/12.0;
+        payment = startingPrincipal * ((perPaymentInterest * (1+perPaymentInterest)^loanLengthMonths)/((1 + perPaymentInterest)^loanLengthMonths - 1))
+        calculatedPayment = true;
+    }
+    else if (payment < minPayment)
+    {
         payment = minPayment;
     }
 	
@@ -58,9 +72,12 @@ function CalcMorg(morgInfo)
     result += `Starting loan amount: ${startingPrincipal}\n`;
         
     result +=`Interest rate: ${(rate).toFixed(1)}%\n`;
-
+    
     if (constPrinPayment > 0) {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
+    }
+    if (calculatedPayment) {
+        result += `Calculating payment of ${(payment).toFixed(2)} for 30yr morg.\n`;
     }
     if ((maxRatio > 0) && (payment > minPayment)) {
         result +=`max ratio of principal to interest payment: ${(maxRatio * 100).toFixed(1)}%\n`;
@@ -311,13 +328,13 @@ function CalcMorg(morgInfo)
     result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${(homeValue-prin).toFixed(2)}`;
 
     if ((inflation != 0) && !hideAdj){
-        result += `, adj: $${(homeValue * dollarValue-prin).toFixed(2)}\n`;
+        result += `, adj: $${(homeValue-prin * dollarValue).toFixed(2)}\n`;
     }
     else{
         result += `\n`;
     }
 
-    var totalGross = (homeValue-prin) - (startingHomeValue - startingPrincipal + totPay) + totalRentPaid;
+    var totalGross = (homeValue-prin) - (intialInvestment + totPay) + totalRentPaid;
     result += `Total gross profit $${totalGross.toFixed(2)}`;
 
     if ((inflation != 0) && !hideAdj){
