@@ -261,25 +261,9 @@ function CalcMorg(morgInfo, isReCalc)
 
     if (calculatedPayment > 0 && stopAfter == 0)
     {
-        if (month != 360)
-        {
-            var monthsoff = 360 - month;
-            var factor = payment / 3000;
-            morgInfo.payment = payment - monthsoff * factor;
-
-            if (logging)
-            {
-                console.log(`Payment calculated invalid for w/e reason retrying. Old payment value: ${payment}, new payment value: ${morgInfo.payment}`);
-                console.log("\n");
-            }
-
-            CalcMorg(morgInfo, calculatedPayment-1);
-            return;
-        }
-
         // attempt to get "correct" payment amount by averaging payments
-        var avgPayment = totPay / month;
-        var diff = payment - avgPayment;
+        var estAvgPayment = totPay / 360;
+        var diff = payment - estAvgPayment;
         if (diff > .01)
         {
             morgInfo.payment = payment - (diff/3);
