@@ -41,10 +41,10 @@ function CalcMorg(morgInfo, isReCalc)
     var totalRentPaid = 0;
     var currentRentRate = rentRate;
     var rentPropValuePercentage = rentRate / startingHomeValue;
-    var calculatedPayment = false;
-    if (isReCalc)
+    var calculatedPayment = -1;
+    if (isReCalc >= 0)
     {
-        calculatedPayment = true;
+        calculatedPayment = isReCalc;
     }
 
     if (startingHomeValue == 0)
@@ -93,7 +93,7 @@ function CalcMorg(morgInfo, isReCalc)
 
         payment = (startingPrincipal + pmiPaidTotal) * paymentFraction;
         payment += taxes;
-        calculatedPayment = true;
+        calculatedPayment = 10;
     }
     else if (payment < minPayment)
     {
@@ -110,7 +110,7 @@ function CalcMorg(morgInfo, isReCalc)
     {
         result += `cont prin payment of ${(constPrinPayment).toFixed(2)}\n`;
     }
-    if (calculatedPayment)
+    if (calculatedPayment >= 0)
     {
         result += `Calculating payment of ${(payment).toFixed(2)} for 30yr morg. (Includes taxes and pmi)\n`;
     }
@@ -259,20 +259,33 @@ function CalcMorg(morgInfo, isReCalc)
         }
     }
 
-    if (calculatedPayment && stopAfter == 0 && month != 360)
+    if (calculatedPayment >= 0 && stopAfter == 0)
     {
-        var monthsoff = 360 - month;
-        var factor = payment / 3000;
-        morgInfo.payment = payment - monthsoff * factor;
-
-        if (logging)
+        if (month != 360)
         {
-            console.log(`Payment calculated invalid for w/e reason retrying. Old payment value: ${payment}, new payment value: ${morgInfo.payment}`);
-            console.log("\n");
+            var monthsoff = 360 - month;
+            var factor = payment / 3000;
+            morgInfo.payment = payment - monthsoff * factor;
+
+            if (logging)
+            {
+                console.log(`Payment calculated invalid for w/e reason retrying. Old payment value: ${payment}, new payment value: ${morgInfo.payment}`);
+                console.log("\n");
+            }
+
+            CalcMorg(morgInfo, calculatedPayment-1);
+            return;
         }
 
-        CalcMorg(morgInfo, true);
-        return;
+        // attempt to get "correct" payment amount by averaging payments
+        var avgPayment = totPay / month;
+        var diff = payment - avgPayment;
+        if (diff > .01)
+        {
+            morgInfo.payment = payment - (diff/3);
+            CalcMorg(morgInfo, calculatedPayment-1);
+            return;
+        }
     }
 
 
