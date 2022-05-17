@@ -367,7 +367,7 @@ function CalcMorg(morgInfo, isReCalc)
             result += `\n`;
         }
 
-        result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(0)}`;
+        result += `Total paid less taxes: $${(totPay - taxesPaid).toFixed(2)}`;
         if ((inflation != 0) && !hideAdj)
         {
             result += `, adj: $${(adjustedTotPay - adjustedTaxesPaid).toFixed(2)}\n`;
@@ -391,7 +391,7 @@ function CalcMorg(morgInfo, isReCalc)
         }
     }
 
-    result += `Total actually paid: $${(totPay).toFixed(0)}`
+    result += `Total actually paid: $${(totPay).toFixed(2)}`
     if ((inflation != 0) && !hideAdj)
     {
         result += `, adj: $${(adjustedTotPay).toFixed(2)}\n`;
