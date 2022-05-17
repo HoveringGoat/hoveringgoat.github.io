@@ -433,12 +433,12 @@ function CalcMorg(morgInfo, isReCalc)
     {
         result += `\n`;
     }
-
-    result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${(homeValue - prin).toFixed(2)}`;
+    var equity = homeValue - prin;
+    result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${equity.toFixed(2)}`;
 
     if ((inflation != 0) && !hideAdj)
     {
-        result += `, adj: $${(homeValue - prin * dollarValue).toFixed(2)}\n`;
+        result += `, adj: $${(equity * dollarValue).toFixed(2)}\n`;
     }
     else
     {
