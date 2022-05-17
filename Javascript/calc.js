@@ -431,7 +431,7 @@ function CalcMorg(morgInfo, isReCalc)
 
     if ((inflation != 0) && !hideAdj)
     {
-        result += `, adj: $${((homeValue * dollarValue - prin) / month).toFixed(2)}\n`;
+        result += `, adj: $${((homeValue - prin - intialInvestment) * dollarValue / month).toFixed(2)}\n`;
     }
     else
     {
