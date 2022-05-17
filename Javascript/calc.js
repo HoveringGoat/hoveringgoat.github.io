@@ -37,7 +37,7 @@ function CalcMorg(morgInfo, isReCalc)
     var homeValue = startingHomeValue;
     var infinte = false;
     var nowDate = (Date.now() / (1000 * 60 * 60 * 24 * 365.24) + 1970).toFixed(0);
-    var thenDate = nowDate;
+    var futureDate = nowDate;
     var totalRentPaid = 0;
     var currentRentRate = rentRate;
     var rentPropValuePercentage = rentRate / startingHomeValue;
@@ -215,7 +215,7 @@ function CalcMorg(morgInfo, isReCalc)
         // calc year
         if (month % 12 == 0)
         {
-            thenDate++;
+            futureDate++;
         }
 
         if (prin >= oldPrin)
@@ -433,19 +433,19 @@ function CalcMorg(morgInfo, isReCalc)
     {
         result += `\n`;
     }
-
-    result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${(homeValue - prin).toFixed(2)}`;
+    var equity = homeValue - prin;
+    result += `Initial investment of $${intialInvestment.toFixed(2)} has grown to be worth $${equity.toFixed(2)}`;
 
     if ((inflation != 0) && !hideAdj)
     {
-        result += `, adj: $${(homeValue - prin * dollarValue).toFixed(2)}\n`;
+        result += `, adj: $${(equity * dollarValue).toFixed(2)}\n`;
     }
     else
     {
         result += `\n`;
     }
 
-    var totalGross = (homeValue - prin) - (intialInvestment + totPay) + totalRentPaid;
+    var totalGross = equity - (intialInvestment + totPay) + totalRentPaid;
     result += `Total gross profit $${totalGross.toFixed(2)}`;
 
     if ((inflation != 0) && !hideAdj)
@@ -459,7 +459,7 @@ function CalcMorg(morgInfo, isReCalc)
 
     if ((inflation != 0) && !hideAdj)
     {
-        result += `$100.00 in ${thenDate} dollars is worth $${(100 * dollarValue).toFixed(2)} adjusted (${nowDate} dollars) due to inflation.`;
+        result += `$100.00 in ${futureDate} dollars is worth $${(100 * dollarValue).toFixed(2)} adjusted (${nowDate} dollars) due to inflation.`;
     }
 
     console.log(result);
