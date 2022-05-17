@@ -264,7 +264,7 @@ function CalcMorg(morgInfo, isReCalc)
         // attempt to get "correct" payment amount by averaging payments
         var estAvgPayment = totPay / 360;
         var diff = payment - estAvgPayment;
-        if (diff > .01)
+        if (diff > .005)
         {
             morgInfo.payment = payment - (diff/3);
             CalcMorg(morgInfo, calculatedPayment-1);
