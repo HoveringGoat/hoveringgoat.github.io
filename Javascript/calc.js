@@ -93,7 +93,7 @@ function CalcMorg(morgInfo, isReCalc)
 
         payment = (startingPrincipal + pmiPaidTotal) * paymentFraction;
         payment += taxes;
-        calculatedPayment = 10;
+        calculatedPayment = 50;
     }
     else if (payment < minPayment)
     {
@@ -259,7 +259,7 @@ function CalcMorg(morgInfo, isReCalc)
         }
     }
 
-    if (calculatedPayment >= 0 && stopAfter == 0)
+    if (calculatedPayment > 0 && stopAfter == 0)
     {
         if (month != 360)
         {
