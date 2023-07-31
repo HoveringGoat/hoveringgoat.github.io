@@ -55,10 +55,11 @@ function CalcMorg(morgInfo, isReCalc)
     if (IsEmpty(prin))
     {
         startingPrincipal = startingHomeValue;
+		prin = startingPrincipal
     }
 	
 	// auto calc pmi
-    if (IsEmpty(pmi)
+    if (IsEmpty(pmi))
     {
 		pmi = 0
 		// if less than 20% owned at start do pmi
@@ -637,7 +638,7 @@ function InitialValues()
 
 function IsEmpty(variable){
 
-	return (variable == null || variable.trim() === '' || variable == 0 )
+	return (variable == null || variable === '' || variable == 0 )
 }
 
 
