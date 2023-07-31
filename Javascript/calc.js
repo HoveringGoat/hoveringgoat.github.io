@@ -326,7 +326,7 @@ function CalcMorg(morgInfo, isReCalc)
     if (pmiMonth > 0)
     {
         result += `Paid pmi off in ${((pmiMonth - pmiMonth % 12) / 12).toFixed(0)} years and ${(pmiMonth % 12).toFixed(0)} months\n`;
-		result += `Monthly pmi payment: ${(pmi)toFixed(0)}`
+		result += `Monthly pmi payment: ${(pmi).toFixed(0)}`
     }
     if (pmiPaid > 0)
     {
