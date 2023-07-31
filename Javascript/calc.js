@@ -55,7 +55,7 @@ function CalcMorg(morgInfo, isReCalc)
     if (IsEmpty(prin))
     {
         startingPrincipal = startingHomeValue;
-		prin = startingPrincipal
+        prin = startingPrincipal;
     }
 	
 	// auto calc pmi
@@ -63,13 +63,13 @@ function CalcMorg(morgInfo, isReCalc)
     {
 		pmi = 0
 		// if less than 20% owned at start do pmi
-		if (startingHomeValue * 0.8 > startingPrincipal)
+		if (startingHomeValue * 0.8 < startingPrincipal)
 		{
-			pmi = (startingPrincipal * 0.0075) / 12
+			pmi = (startingPrincipal * 0.0075) / 12;
 		}
     }
 
-    if (IsEmpty(payment) && IsEmpty(minPayment == 0))
+    if (IsEmpty(payment) && IsEmpty(minPayment))
     {
         // calc 30 yr morg
         var loanLengthMonths = 12 * 30;
