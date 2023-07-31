@@ -61,12 +61,12 @@ function CalcMorg(morgInfo, isReCalc)
 	// auto calc pmi
     if (IsEmpty(pmi))
     {
-		pmi = 0
-		// if less than 20% owned at start do pmi
-		if (startingHomeValue * 0.8 < startingPrincipal)
-		{
-			pmi = (startingPrincipal * 0.0075) / 12;
-		}
+        pmi = 0
+        // if less than 20% owned at start do pmi
+        if (startingHomeValue * 0.8 < startingPrincipal)
+        {
+            pmi = (startingPrincipal * 0.0075) / 12;
+        }
     }
 
     if (IsEmpty(payment) && IsEmpty(minPayment))
