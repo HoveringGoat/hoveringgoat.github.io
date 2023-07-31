@@ -47,18 +47,28 @@ function CalcMorg(morgInfo, isReCalc)
         calculatedPayment = isReCalc;
     }
 
-    if (startingHomeValue == 0)
+    if (IsEmpty(startingHomeValue))
     {
         startingHomeValue = prin;
     }
 
-    if (prin == 0)
+    if (IsEmpty(prin))
     {
-        prin = startingHomeValue;
         startingPrincipal = startingHomeValue;
     }
+	
+	// auto calc pmi
+    if (IsEmpty(pmi)
+    {
+		pmi = 0
+		// if less than 20% owned at start do pmi
+		if (startingHomeValue * 0.8 > startingPrincipal)
+		{
+			pmi = (startingPrincipal * 0.0075) / 12
+		}
+    }
 
-    if (payment == 0 && minPayment == 0)
+    if (IsEmpty(payment) && IsEmpty(minPayment == 0))
     {
         // calc 30 yr morg
         var loanLengthMonths = 12 * 30;
@@ -624,6 +634,12 @@ function InitialValues()
         ReCalc();
     }
 }
+
+function IsEmpty(variable){
+
+	return (variable == null || variable.trim() === '' || variable == 0 )
+}
+
 
 function SaveMorgInfo(morgInfo)
 {
