@@ -2391,3 +2391,7 @@ nav input {
     width: 100%;
     background-color: rgb(225, 230, 235);
 }
+
+.bg-white {
+    background-color: rgb(255, 255, 255);
+}
