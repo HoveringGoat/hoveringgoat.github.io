@@ -1,25 +1,25 @@
-function setCookie(cname,cvalue,exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = ";expires=" + d;
-    document.cookie = cname + "=" + cvalue + expires +";path=/";
-}
+// function setCookie(cname,cvalue,exdays) {
+//   var d = new Date();
+//   d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//     var expires = ";expires=" + d;
+//     document.cookie = cname + "=" + cvalue + expires +";path=/";
+// }
 
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
+// function getCookie(cname) {
+//   var name = cname + "=";
+//   var decodedCookie = decodeURIComponent(document.cookie);
+//   var ca = decodedCookie.split(';');
+//   for(var i = 0; i < ca.length; i++) {
+//     var c = ca[i];
+//     while (c.charAt(0) == ' ') {
+//       c = c.substring(1);
+//     }
+//     if (c.indexOf(name) == 0) {
+//       return c.substring(name.length, c.length);
+//     }
+//   }
+//   return "";
+// }
 
 //function request() {
 //    var request = new XMLHttpRequest()
@@ -47,6 +47,7 @@ function getCookie(cname) {
 // todo after we load a cookie or create a new one we need to parse it into actual useable data.
 // maybe store data in a json blob?
 // once we have the data usable we need to come up with some graph functionality and display the data!
+var stardata;
 
 function OnLoad() {
     LoadChart();
@@ -54,9 +55,7 @@ function OnLoad() {
 }
 
 function RefreshChart() {
-    var data = GetFromLocalStorage("starData")
-    data = JSON.parse(data);
-    UpdateChartData(data[1]);
+    UpdateChartData(stardata[1]);
 }
 
 function UpdateChart() {
@@ -71,7 +70,6 @@ function UpdateChart() {
 }
 
 function UpdateData() {
-    var c = GetFromLocalStorage("starData");
     var lastData;
     var newDate = GetJulianDate();
     var lastDate = 2458119.5; 
@@ -82,7 +80,7 @@ function UpdateData() {
         c = JSON.parse(c);
         if ((typeof c !== "undefined") || (c.length == 2)) {
             console.log('data parsed!');
-            if (c[1][0].jd < lastDate + 7) {
+            if (stardata[1][0].jd < lastDate + 7) {
                 lastDate = c[0];
                 lastData = c[1];
                 // bug broke data storage clear if before date.
@@ -90,7 +88,7 @@ function UpdateData() {
                     if (newDate < lastDate + (updateTimeInterval / 24)) {
                         console.log("data up to date no need to update.");
                         return new Promise(function (resolve) {
-                            resolve(c[1]);
+                            resolve(stardata[1]);
                         });
                     }
                 }
@@ -99,7 +97,7 @@ function UpdateData() {
                     window.localStorage.clear();
                 }
 
-                UpdateChartData(c[1]);
+                UpdateChartData(stardata[1]);
             }
         }
     }
@@ -125,9 +123,7 @@ function UpdateData() {
     return promise.then(function (data) {
         console.log("request successful");
         var parsedData = ParseStarData(data.toLowerCase());
-        var mergedData = MergeData(parsedData, lastData);
-        CreateStarDataCookie("starData", mergedData, newDate);
-        return mergedData;
+        return parsedData;
     });
 
     return promise.catch(function () {
@@ -156,20 +152,16 @@ function ParseStarData(c) {
     return starData;
 }
 
-function CreateStarDataCookie(name, data, newDate) {
-    var c = [newDate, data];
-    c = JSON.stringify(c);
-    SaveToLocalStorage(name, c);
-}
-function SaveToLocalStorage(name, data) {
-    console.log("saving to local storage");
-    window.localStorage.setItem(name, data);
-}
 
-function GetFromLocalStorage(name) {
-    var obj = window.localStorage.getItem(name);
-    return obj;
-}
+// function SaveToLocalStorage(name, data) {
+//     console.log("saving to local storage");
+//     window.localStorage.setItem(name, data);
+// }
+
+// function GetFromLocalStorage(name) {
+//     var obj = window.localStorage.getItem(name);
+//     return obj;
+// }
 
 function GetJulianDate() {
     var d = new Date();
