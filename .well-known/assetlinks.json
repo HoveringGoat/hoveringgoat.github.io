@@ -1,9 +1,9 @@
-[][{
+[{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
     "package_name": "com.goat.project_pics",
     "sha256_cert_fingerprints":
-    ["00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"]
+    ["7B:6B:5B:08:F1:90:30:43:33:35:79:F9:35:8B:01:C9:40:3C:90:85:82:A4:1C:99:B8:D2:C6:41:83:07:56:9C"]
   }
 }]
