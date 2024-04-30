@@ -287,10 +287,6 @@ section {
   overflow: hidden;
 }
 
-.section-bg {
-  background: #f5f8fd;
-}
-
 .section-title {
   padding-bottom: 30px;
 }
@@ -461,7 +457,7 @@ section {
 
 .resume .resume-item h5 {
   font-size: 16px;
-  background: #e4edf9;
+  background: #b7b8bd;
   padding: 5px 15px;
   display: inline-block;
   font-weight: 600;
