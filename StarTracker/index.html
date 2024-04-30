@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body onload="OnLoad()" class="bg-white">
+    <link rel="stylesheet" href="../Style/style.css">
+    <script src="../chartJs/Chart.bundle.min.js"></script>
+    <script src="../Javascript/calc.js"></script>
+    <script src="../Javascript/chart.js"></script>
+    <script src="../Javascript/main.js"></script>
+    <div class="title">
+        <h1>Betelgeuse Brightness Tracker</h1>
+    </div>
+    <div id="chartHolder">
+        <canvas id="chart" class="chartjs-render-monitor"></canvas>
+        <div><label>Start Date:</label><input class="chartStartDate" type="text" onclick="WatchMe();" value="01-01-2019"/><button onclick="RefreshChart()">Refresh</button></div>
+    </div>
+    <div class="about">
+        <div>
+            <p>Some stars are variable stars which means that their brightness changes over time. Betelgeuse also known as Alpha Orionis or Alpha Ori is one of those stars. Currently it is the dimmest on record which could imply an impending supernova as the star compresses in the final months before its total collapse. Or it could just be a large dust cloud it ejected obscuring it from our view. We should know in a few weeks or months which is the case. This graph will keep you updated! Feel free to adjust the start data to view the past two years of data.</p>
+            </div>
+    </div>
+    <div class="footer">
+        <a href="Calculator\Calc"> Mortgage Calculator</a>
+    </div>
+</body>
+</html>
