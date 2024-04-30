@@ -4,7 +4,7 @@ body {
 }
 
 a {
-  color: #149ddd;
+  color: #128ec7;
   text-decoration: none;
 }
 
@@ -348,54 +348,6 @@ section {
   margin-bottom: 0;
 }
 
-.facts {
-  padding-bottom: 30px;
-}
-
-.facts .count-box {
-  padding: 30px;
-  width: 100%;
-}
-
-.facts .count-box i {
-  display: block;
-  font-size: 44px;
-  color: #149ddd;
-  float: left;
-  line-height: 0;
-}
-
-.facts .count-box span {
-  font-size: 48px;
-  line-height: 40px;
-  display: block;
-  font-weight: 700;
-  color: #050d18;
-  margin-left: 60px;
-}
-
-.facts .count-box p {
-  padding: 15px 0 0 0;
-  margin: 0 0 0 60px;
-  font-family: "Raleway", sans-serif;
-  font-size: 14px;
-  color: #122f57;
-}
-
-.facts .count-box a {
-  font-weight: 600;
-  display: block;
-  margin-top: 20px;
-  color: #122f57;
-  font-size: 15px;
-  font-family: "Poppins", sans-serif;
-  transition: ease-in-out 0.3s;
-}
-
-.facts .count-box a:hover {
-  color: #1f5297;
-}
-
 .skills .progress {
   height: 60px;
   display: block;
@@ -419,7 +371,7 @@ section {
 }
 
 .skills .progress-bar-wrap {
-  background: #dce8f8;
+  background: #cfd6dc;
   height: 10px;
 }
 
@@ -427,7 +379,7 @@ section {
   width: 1px;
   height: 10px;
   transition: 0.9s;
-  background-color: #149ddd;
+  background-color: #628fda;
 }
 
 .resume .resume-title {
@@ -457,7 +409,7 @@ section {
 
 .resume .resume-item h5 {
   font-size: 16px;
-  background: #b7b8bd;
+  background: #cfd0d5;
   padding: 5px 15px;
   display: inline-block;
   font-weight: 600;
@@ -798,7 +750,7 @@ section {
 
 .contact .info {
   padding: 30px;
-  background: #fff;
+  background: #d4d5db;
   width: 100%;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
@@ -870,7 +822,7 @@ section {
 .contact .php-email-form {
   width: 100%;
   padding: 30px;
-  background: #fff;
+  background: #d4d5db;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
 
