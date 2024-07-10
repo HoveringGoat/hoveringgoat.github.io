@@ -1,5 +1,10 @@
 function OnLoad() {
-    if(navigator.userAgent.toLowerCase().indexOf("iphone") > -1){
+	setTimeout(function () { redirect() }, 500)
+	window.location = "https://hoveringgoat.github.io/addProject/"
+}
+
+function redirect() {
+	if(navigator.userAgent.toLowerCase().indexOf("iphone") > -1){
 		//window.location.href = 'https://itunes.apple.com/my/app/flipbizz/idexampleapp';
 		window.location.href = 'https://play.google.com/apps/testing/com.goat.project_pics';
 		}
