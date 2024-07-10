@@ -1,5 +1,6 @@
 function OnLoad() {
 	//setTimeout(function () { redirect() }, 10000)
+	redirect();
 	document.getElementById("AppLink").href = window.location
 	console.log(window.location)
 	console.log(window.location.search)
