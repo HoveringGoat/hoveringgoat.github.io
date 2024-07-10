@@ -1,6 +1,8 @@
 function OnLoad() {
-	setTimeout(function () { redirect() }, 500)
-	window.location = "https://hoveringgoat.github.io/addProject/"
+	//setTimeout(function () { redirect() }, 10000)
+	document.getElementById("AppLink").href = window.location
+	console.log(window.location)
+	console.log(window.location.search)
 }
 
 function redirect() {
