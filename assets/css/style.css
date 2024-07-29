@@ -283,7 +283,7 @@ h6 {
 
 
 section {
-  padding: 60px 0;
+  padding-top: 60px;
   overflow: hidden;
 }
 
@@ -1010,4 +1010,15 @@ section {
   display: block;
   height: 275px;
   margin: 10px;
+}
+
+.resumeItemSubtitle{
+  display: inline-block;
+  background: none !important;
+  padding-right: 20px !important;
+}
+
+.portfolioThumbnail{
+  vertical-align: top !important;
+  padding-right: 20px;
 }
