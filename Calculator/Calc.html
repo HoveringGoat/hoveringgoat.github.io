@@ -3,33 +3,35 @@
 <body onload="InitialValues()" class="bg-gray-500">
     <link rel="stylesheet" href="../Style/style.css">
     <script src="../Javascript/calc.js"></script>
-    <div>
-        <h1 class="title">Mortgage Calculator</h1>
+    <div class = "title">
+        <h1>Mortgage Calculator</h1>
+		<p class="subtext">Sadly not a supernova calculator</p>
     </div>
-    <p class="subtext">Sadly not a supernova calculator</p>
-	<div class = "inputHolder"><label>Advanced Options<img src="../imgs/vv.gif"></label><input class="advOptions" type ="checkbox" onclick = "AdvOptionsToggle()"></div>
-	<div class = "inputHolder"><label>Property value:</label><input class="loanAmount" type ="text" value="0"></div>
-	<div class = "inputHolder"><label>Principal balance:</label><input class="principal" type ="text" value="0"></div>
-	<div class = "inputHolder"><label>Annual interest rate:</label><input class="interestRate" type ="text" value="0"></div>
-	<div class = "inputHolder"><label>Monthly payment:</label><input class="payment" type ="text" value="0"></div>
-	<div class = "inputHolder"><label>Minimum Payment:</label><input class="minimumPayment" type ="text" value="0"></div>
-	<div class = "inputHolder superadvancedInput hide"><label>constPrinPayment:</label><input class="constPrinPayment" type ="text" value="0"></div>
-	<div class = "inputHolder superadvancedInput hide"><label>maxRatio:</label><input class="maxRatio" type ="text" value="0"></div>
-	<div class = "inputHolder superadvancedInput hide"><label>maxRatioWithPmi:</label><input class="maxRatioWithPmi" type ="text" value="0"></div>
-	<div class = "inputHolder"><label>Monthly PMI:</label><input class="pmi" type ="text" value="0"></div>
-	<div class = "inputHolder"><label>Monthly taxes:</label><input class="taxes" type ="text" value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>Appreciation rate:</label><input class="appreciation" type ="text" value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>Inflation rate:</label><input class="inflation" type ="text"value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>Stop after (months):</label><input class="stopAfter" type ="text"value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>Rent out unit (monthly rate):</label><input class="RentRate" type ="text"value="0"></div>
-	<div class = "inputHolder advancedInput hide"><label>Increase pymt with inflation:</label><input class="paymentInflation" type ="checkbox"></div>
-	<div class = "inputHolder advancedInput hide"><label>Increase rent with inflation:</label><input class="rentInflation" type ="checkbox"></div>
-	<div class = "inputHolder advancedInput hide"><label>Increase rent with prop value:</label><input class="rentPropValue" type ="checkbox"></div>
-	<div class = "inputHolder advancedInput hide"><label>Hide adjusted values:</label><input class="hideAdj" type ="checkbox" checked="true"></div>
-	<div class = "inputHolder advancedInput hide"><label>Logging:</label><input class="logging" type ="checkbox"></div>
-	<button onclick = "ReCalc()">Calculate Mortgage</button>
-	<button class="advancedInput hide" onclick = "CopySearch()">Share</button>
-	<textarea class="hide share"></textarea>
-    <div class="mortgageStats"></div>
+	<div class = "main-content">
+		<div class = "inputHolder"><label>Advanced Options<img class="advOptionsImg" src="../imgs/vv.gif"></label><input class="advOptions" type ="checkbox" onclick = "AdvOptionsToggle()"></div>
+		<div class = "inputHolder"><label>Property value:</label><input class="loanAmount" type ="text" value="0"></div>
+		<div class = "inputHolder"><label>Principal balance:</label><input class="principal" type ="text" value="0"></div>
+		<div class = "inputHolder"><label>Annual interest rate:</label><input class="interestRate" type ="text" value="0"></div>
+		<div class = "inputHolder"><label>Monthly payment:</label><input class="payment" type ="text" value="0"></div>
+		<div class = "inputHolder"><label>Minimum Payment:</label><input class="minimumPayment" type ="text" value="0"></div>
+		<div class = "inputHolder superadvancedInput hide"><label>constPrinPayment:</label><input class="constPrinPayment" type ="text" value="0"></div>
+		<div class = "inputHolder superadvancedInput hide"><label>maxRatio:</label><input class="maxRatio" type ="text" value="0"></div>
+		<div class = "inputHolder superadvancedInput hide"><label>maxRatioWithPmi:</label><input class="maxRatioWithPmi" type ="text" value="0"></div>
+		<div class = "inputHolder"><label>Monthly PMI:</label><input class="pmi" type ="text" value="0"></div>
+		<div class = "inputHolder"><label>Monthly taxes:</label><input class="taxes" type ="text" value="0"></div>
+		<div class = "inputHolder advancedInput hide"><label>Appreciation rate:</label><input class="appreciation" type ="text" value="0"></div>
+		<div class = "inputHolder advancedInput hide"><label>Inflation rate:</label><input class="inflation" type ="text"value="0"></div>
+		<div class = "inputHolder advancedInput hide"><label>Stop after (months):</label><input class="stopAfter" type ="text"value="0"></div>
+		<div class = "inputHolder advancedInput hide"><label>Rent out unit (monthly rate):</label><input class="RentRate" type ="text"value="0"></div>
+		<div class = "inputHolder advancedInput hide"><label>Increase pymt with inflation:</label><input class="paymentInflation" type ="checkbox"></div>
+		<div class = "inputHolder advancedInput hide"><label>Increase rent with inflation:</label><input class="rentInflation" type ="checkbox"></div>
+		<div class = "inputHolder advancedInput hide"><label>Increase rent with prop value:</label><input class="rentPropValue" type ="checkbox"></div>
+		<div class = "inputHolder advancedInput hide"><label>Hide adjusted values:</label><input class="hideAdj" type ="checkbox" checked="true"></div>
+		<div class = "inputHolder advancedInput hide"><label>Logging:</label><input class="logging" type ="checkbox"></div>
+		<button onclick = "ReCalc()">Calculate Mortgage</button>
+		<button class="advancedInput hide" onclick = "CopySearch()">Share</button>
+		<textarea class="hide share"></textarea>
+		<div class="mortgageStats"></div>
+	</div>
 </body>
 </html>
