@@ -12,10 +12,13 @@ p.subtext {
 }
 
 div.inputHolder {
-	width: auto
+	width: auto;
+	margin-bottom: 3px;
 }
 
 .inputHolder input {
+	width:15%;
+    border: 2px solid #616161;
 }
 
 .inputHolder label {
@@ -799,6 +802,10 @@ video {
 .bg-gray-200 {
   --tw-bg-opacity:1;
   background-color:rgb(229 231 235/var(--tw-bg-opacity))
+}
+.bg-gray-500 {
+  --tw-bg-opacity:1;
+  background-color:rgb(150 150 150/var(--tw-bg-opacity))
 }
 .bg-gray-800 {
   --tw-bg-opacity:1;
