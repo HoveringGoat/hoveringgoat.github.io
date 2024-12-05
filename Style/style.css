@@ -7,8 +7,12 @@
     display: inline-block;
 }
 
+.main-content{
+	margin-left: 50px;
+	margin-top: 15px;
+}
 p.subtext {
-    display: flex;
+
 }
 
 div.inputHolder {
@@ -16,8 +20,11 @@ div.inputHolder {
 	margin-bottom: 3px;
 }
 
+.advOptionsImg{
+	display: inline;
+	margin-left: 10px;
+}
 .inputHolder input {
-	width:15%;
     border: 2px solid #616161;
 }
 
@@ -33,7 +40,10 @@ div.inputHolder {
 
 .mortgageStats {
     white-space: pre;
-    margin-top: 10px
+    margin-top: 10px;
+	width: 800px;
+	background-color: lightgray;
+	padding-left: 10px;
 }
 
 #chartHolder {
@@ -155,16 +165,8 @@ a {
 }
 
 /* ! tailwindcss v3.1.6 | MIT License | https://tailwindcss.com */
-*,
-:after,
-:before {
-  box-sizing:border-box;
-  border:0 solid #e5e7eb
-}
-:after,
-:before {
-  --tw-content:""
-}
+
+
 html {
   line-height:1.5;
   -webkit-text-size-adjust:100%;
@@ -233,20 +235,15 @@ textarea {
   line-height:inherit;
   color:inherit;
   margin:0;
-  padding:0
+  padding: 2px;
+  padding-inline: 10px;
+}
 }
 button,
 select {
   text-transform:none
 }
-[type=button],
-[type=reset],
-[type=submit],
-button {
-  -webkit-appearance:button;
-  background-color:transparent;
-  background-image:none
-}
+
 :-moz-focusring {
   outline:auto
 }
