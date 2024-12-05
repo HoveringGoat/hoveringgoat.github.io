@@ -26,11 +26,12 @@ div.inputHolder {
 }
 .inputHolder input {
     border: 2px solid #616161;
+	height: 18px;
 }
 
 .inputHolder label {
 	display: inline-block;
-	width: 200px;
+	width: 210px;
 	margin-right: 10px;
 }
 
